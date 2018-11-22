@@ -11,6 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', "PagesController@index");
+
+Auth::routes();
+
+
+Route::group(['middleware' => ['auth']], function() {
+Route::get('/posts', "PostController@index");
+Route::get('/create', "PostController@create");
+Route::get('/post/{id}', "PostController@show");
+Route::get('/profile/{id}', "PagesController@profile");
+Route::get('/logout', 'Auth\LoginController@logout');
+//Route::get('/login', "PagesController@login");
+Route::post('/store', "PostController@store");
+Route::post('/search', "PagesController@search");
+Route::post('/comment/{id}', "CommentController@AddComment");
+Route::resource('post', 'PostController');
+Route::get('/profiles', 'PagesController@profiles');
+Route::get('/edit/{id}', 'PostController@edit');
+Route::get('/delete/{id}', 'PostController@destroy');
+Route::get('/image', 'PagesController@image');
+Route::post('/image/{id}', 'PostController@image_up');
+Route::post('/profile-pic/{id}', 'PagesController@image_up');
+Route::post('/update/{id}', 'PostController@update');
 });
