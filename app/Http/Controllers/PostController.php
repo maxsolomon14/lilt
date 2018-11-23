@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+             * @retur
 use App\Like;
 use Validator;
 use App\Post;
@@ -12,7 +16,8 @@ use App\User;
 
 class PostController extends Controller
 {
-    protected $dates = ['created_at'];
+    protected $dates = ['created_at    return view('pages.p'];
+    
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +30,7 @@ class PostController extends Controller
 
        
 
-        return view('pages.posts')->with('posts', $posts)->with('user', $user);
+        return view('pages.pos')->.hPosts($posts)->with('user', $user);
     }
 
     /**
@@ -87,9 +92,21 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)->get();
     
-        $comments = Comment::where('post_id', $id)->get();
+        /**
+isplay a listing of the resource.
+     *
+     * @return \Illumnttp\Resaponn inate\   Http\Response
 
-        $likes = Like::where('post_id', $id)->get();
+    public futon ndex()
+    {
+i    $poss = Post::simplePaginate(6);
+    t
+   $user = User::all(
+ 
+        return view   return view(turn view('page   re(    )    $comments = Comment::where('post_id', $id)->get();
+
+        $likes = Likepublic f     inde
+    {:where('post_id', $id)->get();
 
         foreach ($likes as $like) {
             if ($like->user_id == Auth::user()->id) {
@@ -158,15 +175,3 @@ class PostController extends Controller
        // echo $path;
         // dd($path);
 
-       $image_path = Post::find($id);
-
-       $image_path->image_path = $path;
-
-       $image_path->save();
-
-
-       return redirect('/post/'.$id);
-    }
-
-    
-}
