@@ -6,6 +6,9 @@
 @foreach($profile as $user)
 <div class="jumbotron">
     <h2 class="display-4">{{$user->name}}</h2>
+    @if (isset($user->image_path))
+    <img style="width:200px;height:200px;"src="{{asset($user->image_path)}}" class="rounded"><br>
+    @endif
     <p>{{$user->name}} has been a member of BBB since {{$user->created_at->format('Y')}}.</p>
 
     @if(count($user->posts) > 0)

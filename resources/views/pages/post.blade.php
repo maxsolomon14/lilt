@@ -5,6 +5,7 @@
     <div class="container-fluid">
     @if(count($post) > 0)
         @foreach($post as $blog_post)
+       
         <div class="jumbotron">
         <h2 class="display-4">{{$blog_post->title}}</h2>
         @if(isset($blog_post->image_path))
@@ -12,7 +13,19 @@
         @endif
         <p class="lead">{{$blog_post->body}}</p>
         <small>Written by <a href="/profile/{{$blog_post->author_id}}">{{$blog_post->author_name}}</a> on {{$blog_post->created_at->format('d F Y H:i')}}</small>
-
+        @if(count($blog_post->likes) < 1)
+        <p>Be the first to like {{$blog_post->author_name}}'s post.</p><a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button"> Like</a>
+        @else 
+        @if($likes)
+        @if(count($blog_post->likes) >= 2)
+        <p>You and {{(count($blog_post->likes) - 1)}} other @if((count($blog_post->likes) - 1) > 1) people @else person @endif have liked this post.
+        @else
+        <p>You are the only person to like this.</p>
+        @endif
+        @else
+        <p>This post has {{count($blog_post->likes)}} likes.<a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}">Like</a>
+        @endif
+        @endif
         @if($blog_post->commented != null)
         <h3>Comments:</h3><br>
         @foreach($comments as $comment)
