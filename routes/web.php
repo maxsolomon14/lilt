@@ -19,7 +19,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
 Route::get('/posts', "PostController@index");
 Route::get('/create', "PostController@create");
-Route::get('/post/{id}', "PostController@show");
+Route::get('/post/{user}', "PostController@show");
 Route::get('/profile/{id}', "PagesController@profile");
 Route::get('/logout', 'Auth\LoginController@logout');
 //Route::get('/login', "PagesController@login");
@@ -33,5 +33,9 @@ Route::get('/delete/{id}', 'PostController@destroy');
 Route::get('/image', 'PagesController@image');
 Route::post('/image/{id}', 'PostController@image_up');
 Route::post('/profile-pic/{id}', 'PagesController@image_up');
+Route::get('/like/{post_id}/{user_id}', 'LikeController@index');
+Route::get('/like-save/{post_id}/{user_id}', 'LikeController@create');
+Route::get('/messages', 'MessagesController@index');
+Route::get('/inbox/{sender_id}/{recipient_id}', 'MessagesController@show');
 Route::post('/update/{id}', 'PostController@update');
 });

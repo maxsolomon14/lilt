@@ -17,8 +17,8 @@ class PagesController extends Controller
     public function index()
     {
 
-        if(Auth::check()) {
-            $user_posts = Post::where('author_id', Auth::user()->id)->get();
+        if($user = Auth::user()) {
+            // $user_posts = Post::where('author_id', Auth::user()->id)->get();
             
             // $user_posts = Post::where('author_id', Auth::user()->id)->get();
 
@@ -29,11 +29,11 @@ class PagesController extends Controller
                 // return view('pages.index')->with('user_posts', $user_posts)->with('user_comments', $user_comments);
             // } else {
             //     $user_posts = [];
-                return view('pages.index')->with('user_posts', $user_posts);
+                return view('pages.index')->with('user_posts', $user->posts);
             // }
-        } else {
-            return view('pages.index');
         }
+
+        return view('pages.index');
     }
 
     public function posts()
@@ -47,16 +47,16 @@ class PagesController extends Controller
         return view('pages.login');
     }
 
-    public function profile($id) {
+    public function profile(User $user) {
         
 
-        $profile = User::where('id', $id)->get();
+        // $profile = User::where('id', $id)->get();
         // $profile_posts = Post::where('author_id', $id)->get();
         // $profile_comms = Comment::where('user_id', $id)->get();
 
         
 
-        return view('pages.profile')->with('profile', $profile);
+        return view('pages.profile')->with('profile', $user);
     }
 
     public function search(Request $request)
@@ -66,13 +66,13 @@ class PagesController extends Controller
             'search' => 'required|max:20',
         ]);
 
-            if(! $validator->fails()) {
-        $criteria = $request->search;
+        if(! $validator->fails()) {
+            $criteria = $request->search;
 
-         if($criteria == '') {
-            abort(404);
-         }
-       $user = User::where('name', 'like', '%'.$criteria.'%')->first();
+            if($criteria == '') {
+                abort(404);
+            }
+        $user = User::where('name', 'like', '%'.$criteria.'%')->first();
       
         return redirect('/profile/'.$user->id);
         } else {

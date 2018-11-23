@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Like;
 use Validator;
 use App\Post;
 use App\Comment;
@@ -88,7 +89,17 @@ class PostController extends Controller
     
         $comments = Comment::where('post_id', $id)->get();
 
-        return view('pages.post')->with('post', $post)->with('comments', $comments);
+        $likes = Like::where('post_id', $id)->get();
+
+        foreach ($likes as $like) {
+            if ($like->user_id == Auth::user()->id) {
+            $likes = true;
+            } else {
+                $likes = false;
+            }
+        } 
+
+        return view('pages.post')->with('post', $post)->with('comments', $comments)->with('likes', $likes);
     }
 
     /**
