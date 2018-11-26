@@ -13,19 +13,24 @@
         @endif
         <p class="lead">{{$blog_post->body}}</p>
         <small>Written by <a href="/profile/{{$blog_post->author_id}}">{{$blog_post->author_name}}</a> on {{$blog_post->created_at->format('d F Y H:i')}}</small>
+        @if ($blog_post->author_id == Auth::user()->id)
+        <p>Your post has @if(count($blog_post->likes) === 0)no likes so far.@else {{count($blog_post->likes)}} @if(count($blog_post->likes) > 1) likes so far. @else like so far.@endif @endif </p>
+        @else
         @if(count($blog_post->likes) < 1)
         <p>Be the first to like {{$blog_post->author_name}}'s post.</p><a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button"> Like</a>
         @else 
-        @if($likes)
+        @if($likes or null !== App\User::find(Auth::user()->id)->likes->where('post_id', '=', $blog_post->id)->first())
         @if(count($blog_post->likes) >= 2)
-        <p>You and {{(count($blog_post->likes) - 1)}} other @if((count($blog_post->likes) - 1) > 1) people @else person @endif have liked this post.
+        <p>You and {{(count($blog_post->likes) - 1)}} other @if((count($blog_post->likes) - 1) > 1) people @else person @endif have liked this post. <a href="/unlike/{{Auth::user()->id}}/{{$blog_post->id}}">Unlike</a>
         @else
-        <p>You are the only person to like this.</p>
+        <p>You are the only person to like this.</p> <a href="/unlike/{{Auth::user()->id}}/{{$blog_post->id}}">Unlike</a>
         @endif
         @else
-        <p>This post has {{count($blog_post->likes)}} likes.<a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}">Like</a>
+        <p>This post has {{count($blog_post->likes)}} likes. <a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}">Like</a>
         @endif
         @endif
+        @endif
+        
         @if($blog_post->commented != null)
         <h3>Comments:</h3><br>
         @foreach($comments as $comment)
@@ -51,8 +56,9 @@
                 </div>
               </div>
         </form>
-        <a href="../edit/{{$blog_post->id}}" class="btn btn-primary">Edit Post</a><br><br>
-        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$blog_post->id}}">Delete</a>
+        <a href="../edit/{{$blog_post->id}}" class="btn btn-primary">Edit Post</a>  
+        <a href="../delete-image/{{$blog_post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>  
+        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$blog_post->id}}">Delete Post</a>
         @endif
         @if(Auth::user()->name != $blog_post->author_name)
         <h3>Add a comment:</h3>

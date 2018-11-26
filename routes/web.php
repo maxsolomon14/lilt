@@ -30,6 +30,8 @@ Route::resource('post', 'PostController');
 Route::get('/profiles', 'PagesController@profiles');
 Route::get('/edit/{id}', 'PostController@edit');
 Route::get('/delete/{id}', 'PostController@destroy');
+Route::get('/delete-image/{id}', 'PostController@delete_image');
+Route::get('/unlike/{id}/{post}', 'LikeController@destroy');
 Route::get('/image', 'PagesController@image');
 Route::post('/image/{id}', 'PostController@image_up');
 Route::post('/profile-pic/{id}', 'PagesController@image_up');

@@ -27,6 +27,20 @@
         </form>
     @else
     <img style="width:200px;height:200px;"src="{{asset(Auth::user()->image_path)}}" class="rounded"><br>
+    <br><button class="btn btn-info" type="button" id="formButton">Change Profile Picture</button>
+
+    <form id="form1" action="../profile-pic/{{Auth::user()->id}}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button type="submit" class="input-group-text">Upload</button>
+                </div>
+                <div class="custom-file">
+                  <input type="file" name="image" class="custom-file-input" id="image">
+                  <label class="custom-file-label" for="image">Add a Profile Picture:</label>
+                </div>
+              </div>
+        </form>
     @endif
     @if(! $user_posts->isEmpty())
     <h3 class="lead">Take a look at your posts:</h3>
