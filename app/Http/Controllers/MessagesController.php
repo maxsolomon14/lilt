@@ -18,28 +18,19 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $curr_user = Auth::user()->id;
-        $current_user = Auth::user()->id;
+        $user = Auth::user()->id;
 
-        $messages = Message::where(function ($query) use ($current_user, $curr_user) {
-            $query->where('sender_id', '=', $current_user)
-                  ->orWhere('recipient_id', '=', $curr_user);
-        })->get();
-
-         
-         $messages = $messages->unique(function ($item) {
-            return $item['sender_id'].$item['recipient_id'];
+        $messages = Message::where(function ($query) use ($user) {
+            $query->where('sender_id', '=', $user)
+                  ->orWhere('recipient_id', '=', $user);
+        })
+        ->groupBy('sender_id', 'recipient_id')
+        ->get()
+        ->unique(function ($message) {
+            return $message['sender_id'] + $message['recipient_id'];
         });
         
-        
-
-        if ($messages->isEmpty()) {
-            $messages = null;
-        }
-        
-
-        $user = new User;
-
+    
         return view('pages.messages')->with('messages', $messages);
     }
 

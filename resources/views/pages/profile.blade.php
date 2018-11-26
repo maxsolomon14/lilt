@@ -11,7 +11,7 @@
     <img style="width:200px;height:200px;"src="{{asset($user->image_path)}}" class="rounded"><br>
     @endif
     <p>{{$user->name}} has been a member of BBB since {{$user->created_at->format('Y')}}.</p>
-
+    <a href="/inbox/{{Auth::user()->id}}/{{$user->id}}" role="button" class="btn btn-primary">Chat with {{$user->name}}</a>
     @if(count($user->posts) > 0)
     <h3>Here are {{$user->name}}'s posts:</h3>
     

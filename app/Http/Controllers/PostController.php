@@ -51,6 +51,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:posts|max:30',
             'body' => 'required|max:300',
+            'image' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -59,12 +60,18 @@ class PostController extends Controller
                         ->withInput();
                         
         }
-
+        
+       $path = $request->file('image')->store('/public');
+       $path = str_replace('public/', 'storage/', $path);
+        
+       
         $post = new Post;
 
         $post->title = $request->title;
 
         $post->body = $request->body;
+
+        $post->image_path = $path;
 
         $post->author_name = Auth::user()->name;
 
@@ -166,6 +173,16 @@ class PostController extends Controller
 
 
        return redirect('/post/'.$id);
+    }
+
+    public function delete_image($id) {
+        $image = Post::find($id);
+
+        $image->image_path = null;
+
+        $image->save();
+
+        return redirect('/post/'.$id);
     }
 
     

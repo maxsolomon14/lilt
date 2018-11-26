@@ -12,12 +12,19 @@
 @endforeach
 @endif
 
-<form class="" method="post" action="/store">
+<form class="" method="post" action="/store" enctype="multipart/form-data">
     @csrf
     Title:<br>
     <input type="text" name="title"><br>
     Body:<br>
     <textarea name="body"></textarea><br>
-    <button class="btn btn-primary" type="submit">Create Post</button>
+    <br>
+    <div class="input-group mb-3">
+            <div class="custom-file">
+              <input type="file" name="image" class="custom-file-input" id="image">
+              <label class="custom-file-label" for="image">Add a Picture:</label>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Create Post</button>
 </form>
 @endsection

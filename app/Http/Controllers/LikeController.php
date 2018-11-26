@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Like;
 use App\Post;
 use App\User;
@@ -37,7 +38,7 @@ class LikeController extends Controller
      */
     public function create($post_id, $user_id)
     {
-        
+       
        
         $like = new Like;
 
@@ -102,8 +103,14 @@ class LikeController extends Controller
      * @param  \App\Like  $like
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Like $like)
+    public function destroy(Like $like, $id, $post_id)
     {
-        //
+        $like_delete = Post::where('user_id', '=', $id);
+
+        DB::delete('DELETE FROM likes WHERE user_id = ? and post_id = ?', [$id, $post_id]);
+
+
+        return redirect('/post/'.$post_id);
+        
     }
 }
