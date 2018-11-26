@@ -5,6 +5,7 @@
 
 @foreach($profile as $user)
 <div class="jumbotron">
+        
     <h2 class="display-4">{{$user->name}}</h2>
     @if (isset($user->image_path))
     <img style="width:200px;height:200px;"src="{{asset($user->image_path)}}" class="rounded"><br>
@@ -13,7 +14,7 @@
 
     @if(count($user->posts) > 0)
     <h3>Here are {{$user->name}}'s posts:</h3>
-
+    
     @foreach ($user->posts as $post)
     <ul class="list-group">
         <li class="list-group-item">
