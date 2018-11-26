@@ -37,5 +37,6 @@ Route::get('/like/{post_id}/{user_id}', 'LikeController@index');
 Route::get('/like-save/{post_id}/{user_id}', 'LikeController@create');
 Route::get('/messages', 'MessagesController@index');
 Route::get('/inbox/{sender_id}/{recipient_id}', 'MessagesController@show');
+Route::post('/send/{sender_id}/{recipient_id}', 'MessagesController@store');
 Route::post('/update/{id}', 'PostController@update');
 });

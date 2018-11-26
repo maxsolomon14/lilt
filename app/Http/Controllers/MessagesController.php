@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessagesController extends Controller
 {
@@ -25,28 +26,21 @@ class MessagesController extends Controller
                   ->orWhere('recipient_id', '=', $curr_user);
         })->get();
 
+         
+         $messages = $messages->unique(function ($item) {
+            return $item['sender_id'].$item['recipient_id'];
+        });
+        
+        
 
-        foreach($messages as $message) {
-            $a = User::where('id', $message->recipient_id)->first();
-        //    dump($a->name);
-        //     dd(Auth::user($message->recipient_id)->name);
-        if (Auth::user()->id !== $message->sender_id){
-            $message->name = Auth::user(Auth::user()->id)->name;
-        } else {
-            $message->name = $a->name;
-        }
-
-                
-
-        }
         if ($messages->isEmpty()) {
             $messages = null;
         }
-        //dd($messages);
+        
 
         $user = new User;
 
-        return view('pages.messages')->with('messages', $messages)->with('message', $message);
+        return view('pages.messages')->with('messages', $messages);
     }
 
     /**
@@ -78,9 +72,11 @@ class MessagesController extends Controller
                         
         }
 
-        $new_message = Message::create(['message' => $request->message, 'sender_id' => $sender_id, 'recipient_id' => $recipient_id]);
+        $new_message = Message::create(['message' => $request->message, 
+                                        'sender_id' => $sender_id, 
+                                        'recipient_id' => $recipient_id]);
 
-        dd($new_message);
+        return redirect("/inbox/$sender_id/$recipient_id");
 
     }
 
@@ -92,12 +88,17 @@ class MessagesController extends Controller
      */
     public function show(Message $message, $sender_id, $recipient_id)
     {
-        $conversation = Message::where(function ($query) use ($sender_id, $recipient_id) {
-            $query->where('sender_id', '=', $sender_id)
-                  ->orWhere('recipient_id', '=', $recipient_id);
-        })->get();
+        // $users = Message::where(function ($query) use ($recipient_id, $sender_id) {
+        //     $query->where('sender_id', '=', $recipient_id)
+        //           ->orWhere('sender_id', '=', $sender_id);
+        // })->first();
 
-        return view('pages.inbox/'.$sender_id.'/'.$recipient_id)->with('conversation', $conversation);
+        $conversation = DB::select('SELECT * FROM messages Where sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
+
+        $users = ['sender_id' => $sender_id,
+                  'recipient_id' => $recipient_id];
+
+        return view('pages.inbox')->with('conversation', $conversation)->with('users', $users);
     }
 
     /**

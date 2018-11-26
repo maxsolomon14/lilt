@@ -16,6 +16,9 @@
                   <a class="nav-link" href="/profiles">Profiles</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/messages">Messages</a>
+                  </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                   </li>
                 <form class="form-inline my-2 my-lg-0" action="/search" method="post">

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
@@ -9,22 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\Comment;
 use Illuminate\Http\Request;
-
 class PagesController extends Controller
 {
-
-
     public function index()
     {
-
         if($user = Auth::user()) {
             // $user_posts = Post::where('author_id', Auth::user()->id)->get();
             
             // $user_posts = Post::where('author_id', Auth::user()->id)->get();
-
             // $user_comments = Comment::where('user_id', Auth::user()->id)->get();
             // dd(Post::find(Auth::user()->id)->comments);
-
             // if($user_posts->isNotEmpty() && $user_comments->isNotEmpty()) {
                 // return view('pages.index')->with('user_posts', $user_posts)->with('user_comments', $user_comments);
             // } else {
@@ -32,43 +24,33 @@ class PagesController extends Controller
                 return view('pages.index')->with('user_posts', $user->posts);
             // }
         }
-
         return view('pages.index');
     }
-
     public function posts()
     {
         
         return view('pages.posts');
     }
-
     public function login()
     {
         return view('pages.login');
     }
-
-    public function profile(User $user) {
+    public function profile($id) {
         
-
-        // $profile = User::where('id', $id)->get();
+        $profile = User::where('id', $id)->get();
         // $profile_posts = Post::where('author_id', $id)->get();
         // $profile_comms = Comment::where('user_id', $id)->get();
-
         
-
-        return view('pages.profile')->with('profile', $user);
+        return view('pages.profile')->with('profile', $profile);
     }
-
     public function search(Request $request)
     {
        
         $validator = Validator::make($request->all(), [
             'search' => 'required|max:20',
         ]);
-
         if(! $validator->fails()) {
             $criteria = $request->search;
-
             if($criteria == '') {
                 abort(404);
             }
@@ -78,18 +60,14 @@ class PagesController extends Controller
         } else {
             return redirect(url()->previous());
         }
-
     
     }
-
     public function profiles() {
         $profiles = User::all();
         
         
-
         return view('pages.results')->with('profiles', $profiles);
     }
-
     public function image() {
         return view('pages.image');
     }
@@ -100,14 +78,9 @@ class PagesController extends Controller
         
        // echo $path;
         // dd($path);
-
        $image_path = User::find($id);
-
        $image_path->image_path = $path;
-
        $image_path->save();
-
-
        return redirect('/');
     }
     
