@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @if ($messages->isEmpty() == false)
+    @if ($messages->isNotEmpty())
     <div class="jumbotron">
         <h2 class="display-4">Messages</h2>
     @foreach ($messages as $inbox)

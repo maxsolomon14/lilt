@@ -13,19 +13,20 @@ class Post extends Model
      */
     protected $fillable = ['name'];
 
-    protected $casts = ['name' => 'datetime'];
+    protected $casts = ['name' => 'string'];
+
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'author_id');
+        return $this->hasOne(User::class, 'id', 'author_id');
     }
 
     public function likes()
     {
-        return $this->hasMany('App\Like');
+        return $this->hasMany(Like::class);
     }
 }
