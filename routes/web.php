@@ -19,6 +19,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
 Route::get('/posts', "PostController@index");
 Route::get('/create', "PostController@create");
+Route::post('/create-message', "MessagesController@create_new");
 Route::get('/post/{post}', "PostController@show");
 Route::get('/profile/{user}', "PagesController@profile");
 Route::get('/logout', 'Auth\LoginController@logout');

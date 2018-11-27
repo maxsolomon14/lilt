@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('content')
-    @if (isset($messages))
+
+    @if ($messages->isEmpty() == false)
     <div class="jumbotron">
         <h2 class="display-4">Messages</h2>
     @foreach ($messages as $inbox)
@@ -24,10 +25,35 @@
     </ul>
     @endif
     @endforeach
-    </div>
+    
 
 
     @else
-        <h2>No messages yet :(</h2>
+        <h2 class="display-4">No messages yet</h2>
     @endif
+        @if(isset($errors))
+
+        @foreach ($errors->all() as $error)
+
+        <h4 style="color:red">{{$error}}</h4>
+
+        @endforeach
+        @endif
+        <h2 class="display-4">Create New Message</h2>
+        <form class="" method="post" action="../create-message">
+            @csrf
+        To:<br>
+            <select name="option">
+                @foreach(App\User::all() as $option)
+                @if($option->id !== Auth::user()->id)
+                <option value="{{$option->id}}">{{$option->name}}</option>
+                @endif
+                @endforeach
+            </select><br>
+            Message:<br>
+            <textarea name="message"></textarea><br>
+            <br>
+                  <button class="btn btn-primary" type="submit">Create Post</button>
+        </form>
+    </div>
 @endsection
