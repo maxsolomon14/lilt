@@ -159,6 +159,10 @@ class PostController extends Controller
     }
 
     public function image_up(Request $request, $id) {
+        if ($request->file('image') == null) {
+            return redirect(url()->previous());
+        }
+
        $path = $request->file('image')->store('/public');
        $path = str_replace("public/", "storage/", $path);
 
