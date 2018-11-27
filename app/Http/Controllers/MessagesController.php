@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use Validator;
 use App\Message;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class MessagesController extends Controller
 {
@@ -29,8 +29,7 @@ class MessagesController extends Controller
         ->unique(function ($message) {
             return $message['sender_id'] + $message['recipient_id'];
         });
-        
-    
+
         return view('pages.messages')->with('messages', $messages);
     }
 
@@ -47,7 +46,8 @@ class MessagesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $sender_id, $recipient_id)
@@ -60,21 +60,20 @@ class MessagesController extends Controller
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
-                        
         }
 
-        $new_message = Message::create(['message' => $request->message, 
-                                        'sender_id' => $sender_id, 
-                                        'recipient_id' => $recipient_id]);
+        $new_message = Message::create(['message'      => $request->message,
+                                        'sender_id'    => $sender_id,
+                                        'recipient_id' => $recipient_id, ]);
 
         return redirect("/inbox/$sender_id/$recipient_id");
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param \App\Message $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Message $message, $sender_id, $recipient_id)
@@ -83,13 +82,13 @@ class MessagesController extends Controller
         //     $query->where('sender_id', '=', $recipient_id)
         //           ->orWhere('sender_id', '=', $sender_id);
         // })->first();
-            if($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
-                abort(404);
-            }
+        if ($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
+            abort(404);
+        }
         $conversation = DB::select('SELECT * FROM messages Where sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
 
-        $users = ['sender_id' => $sender_id,
-                  'recipient_id' => $recipient_id];
+        $users = ['sender_id'    => $sender_id,
+                  'recipient_id' => $recipient_id, ];
 
         return view('pages.inbox')->with('conversation', $conversation)->with('users', $users);
     }
@@ -97,7 +96,8 @@ class MessagesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param \App\Message $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Message $message)
@@ -108,8 +108,9 @@ class MessagesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Message             $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Message $message)
@@ -120,35 +121,35 @@ class MessagesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Message  $message
+     * @param \App\Message $message
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)
     {
-        if(isset($message)) {
+        if (isset($message)) {
             $message->delete();
+
             return redirect(url()->previous());
         } else {
             abort(404);
-            }
         }
-        
+    }
+
     public function create_new(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'message' => 'required|max:300',
-            'option' => 'required',
+            'option'  => 'required',
         ]);
 
         if ($validator->fails()) {
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
-                        
         }
 
-
-        $new_message = new Message;
+        $new_message = new Message();
 
         $new_message->sender_id = Auth::user()->id;
 
@@ -157,7 +158,7 @@ class MessagesController extends Controller
         $new_message->message = $request->message;
 
         $new_message->save();
-        
+
         return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
     }
 }

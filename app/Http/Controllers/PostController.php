@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Like;
-use Validator;
-use App\Post;
 use App\Comment;
+use App\Like;
+use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use Validator;
 
 class PostController extends Controller
 {
     protected $dates = ['created_at'];
+
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +23,6 @@ class PostController extends Controller
     {
         $posts = Post::orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
         $user = User::all();
-
-       
 
         return view('pages.posts')->with('posts', $posts)->with('user', $user);
     }
@@ -35,22 +34,21 @@ class PostController extends Controller
      */
     public function create()
     {
-        
-    
         return view('pages.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:posts|max:30',
-            'body' => 'required|max:300',
+            'body'  => 'required|max:300',
             'image' => 'nullable',
         ]);
 
@@ -58,14 +56,12 @@ class PostController extends Controller
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
-                        
         }
-        
-       $path = $request->file('image')->store('/public');
-       $path = str_replace('public/', 'storage/', $path);
-        
-       
-        $post = new Post;
+
+        $path = $request->file('image')->store('/public');
+        $path = str_replace('public/', 'storage/', $path);
+
+        $post = new Post();
 
         $post->title = $request->title;
 
@@ -78,19 +74,19 @@ class PostController extends Controller
         $post->author_id = Auth::user()->id;
 
         $post->save();
-        
+
         return redirect('post/'.$post->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Post  $post
+     * @param \App\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
     {
-       
         $comments = Comment::where('post_id', $post->id)->get();
 
         $likes = Like::where('post_id', $post->id)->get();
@@ -101,17 +97,17 @@ class PostController extends Controller
 
         foreach ($likes as $like) {
             if ($like->user_id == Auth::user()->id) {
-            $likes = true;
+                $likes = true;
             } else {
                 $likes = false;
             }
         }
 
-        $logUnliked = trans_choice("likes.likes_not_liked", $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
-        $userspost = trans_choice("likes.user_post", $post->likes->count(), ['likes' => $post->likes->count()]);
-        $logLiked = trans_choice("likes.likes_liked", $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
+        $logUnliked = trans_choice('likes.likes_not_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
+        $userspost = trans_choice('likes.user_post', $post->likes->count(), ['likes' => $post->likes->count()]);
+        $logLiked = trans_choice('likes.likes_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
 
-        if($likes or $hasLiked) {
+        if ($likes or $hasLiked) {
             $hasLiked = true;
         } else {
             $hasLiked = false;
@@ -123,7 +119,8 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Post  $post
+     * @param \App\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
@@ -140,13 +137,13 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Post  $post
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Post                $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Post $post, Request $request)
     {
-
         $post->title = $request->title;
 
         $post->body = $request->body;
@@ -159,7 +156,8 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Post  $post
+     * @param \App\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
@@ -167,34 +165,30 @@ class PostController extends Controller
         $post->delete();
 
         return redirect('/posts');
-        
     }
 
-    public function image_up(Post $post, Request $request) {
+    public function image_up(Post $post, Request $request)
+    {
         if ($request->file('image') == null) {
             return redirect(url()->previous());
         }
 
-       $path = $request->file('image')->store('/public');
-       $path = str_replace("public/", "storage/", $path);
+        $path = $request->file('image')->store('/public');
+        $path = str_replace('public/', 'storage/', $path);
 
-
-       $post->image_path = $path;
-
-       $post->save();
-
-
-       return redirect('/post/'.$post->id);
-    }
-
-    public function delete_image(Post $post) {
-
-        $post->image_path = null;
+        $post->image_path = $path;
 
         $post->save();
 
         return redirect('/post/'.$post->id);
     }
 
-    
+    public function delete_image(Post $post)
+    {
+        $post->image_path = null;
+
+        $post->save();
+
+        return redirect('/post/'.$post->id);
+    }
 }

@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddAuthorNameToPosts extends Migration
 {
@@ -13,7 +12,7 @@ class AddAuthorNameToPosts extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function($table){
+        Schema::table('posts', function ($table) {
             $table->string('author_name')->after('body')->nullable();
         });
     }
@@ -25,7 +24,7 @@ class AddAuthorNameToPosts extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function($table) {
+        Schema::table('posts', function ($table) {
             $table->dropColumn('author_name');
         });
     }

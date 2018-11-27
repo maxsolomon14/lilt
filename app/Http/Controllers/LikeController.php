@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use App\Like;
 use App\Post;
-use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LikeController extends Controller
 {
@@ -17,12 +16,10 @@ class LikeController extends Controller
      */
     public function index($post_id, $user_id)
     {
-
         $post = Post::find($post_id);
 
         $find = Like::where(['post_id' => $post_id, 'user_id' => $user_id])->first();
         // dd($find);
-        
 
         if ($find != null or $post->user->id == $user_id) {
             return redirect(url()->previous());
@@ -38,9 +35,7 @@ class LikeController extends Controller
      */
     public function create($post_id, $user_id)
     {
-       
-       
-        $like = new Like;
+        $like = new Like();
 
         $like->post_id = $post_id;
 
@@ -49,13 +44,13 @@ class LikeController extends Controller
         $like->save();
 
         return redirect('/post/'.$post_id);
-    
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -66,7 +61,8 @@ class LikeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Like  $like
+     * @param \App\Like $like
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Like $like)
@@ -77,7 +73,8 @@ class LikeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Like  $like
+     * @param \App\Like $like
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Like $like)
@@ -88,8 +85,9 @@ class LikeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Like  $like
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Like                $like
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Like $like)
@@ -100,7 +98,8 @@ class LikeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Like  $like
+     * @param \App\Like $like
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Like $like, $id, $post_id)
@@ -109,8 +108,6 @@ class LikeController extends Controller
 
         DB::delete('DELETE FROM likes WHERE user_id = ? and post_id = ?', [$id, $post_id]);
 
-
         return redirect('/post/'.$post_id);
-        
     }
 }

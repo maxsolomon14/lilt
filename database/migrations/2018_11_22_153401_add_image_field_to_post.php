@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddImageFieldToPost extends Migration
 {
@@ -13,7 +12,7 @@ class AddImageFieldToPost extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function($table){
+        Schema::table('posts', function ($table) {
             $table->string('image_path')->nullable();
         });
     }

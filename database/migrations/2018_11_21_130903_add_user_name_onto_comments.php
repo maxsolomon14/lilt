@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddUserNameOntoComments extends Migration
 {
@@ -13,7 +12,7 @@ class AddUserNameOntoComments extends Migration
      */
     public function up()
     {
-        Schema::table('comments', function($table) {
+        Schema::table('comments', function ($table) {
             $table->string('user_name');
         });
     }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Comment;
 use App\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class CommentController extends Controller
 {
-    public function AddComment(Request $request, $id) {
-      
+    public function AddComment(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'comment' => 'required|max:200',
         ]);
@@ -20,12 +20,11 @@ class CommentController extends Controller
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
-                        
         }
 
         $user_id = Auth::user()->id;
 
-        $comm = new Comment;
+        $comm = new Comment();
 
         $comm->user_name = Auth::user()->name;
 
