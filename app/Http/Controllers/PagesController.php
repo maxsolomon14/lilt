@@ -51,7 +51,7 @@ class PagesController extends Controller
             'search_type' => 'required',
         ]);
 
-            if($request->search == null) {
+            if($request->search == null or $request->search_type == null) {
                 return redirect(url()->previous());
             }
 
