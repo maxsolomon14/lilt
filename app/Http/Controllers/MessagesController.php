@@ -125,6 +125,11 @@ class MessagesController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
-    }
+        if(isset($message)) {
+            $message->delete();
+            return redirect(url()->previous());
+        } else {
+            abort(404);
+            }
+        } 
 }

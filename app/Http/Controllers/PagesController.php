@@ -86,7 +86,7 @@ class PagesController extends Controller
         return view('pages.image');
     }
     
-    public function image_up(Request $request, $id) {
+    public function image_up(User $user, Request $request) {
         if ($request->file('image') == null) {
             return redirect(url()->previous());
         }
@@ -95,9 +95,9 @@ class PagesController extends Controller
         
        // echo $path;
         // dd($path);
-       $image_path = User::find($id);
-       $image_path->image_path = $path;
-       $image_path->save();
+       
+       $user->image_path = $path;
+       $user->save();
        return redirect('/');
     }
     
