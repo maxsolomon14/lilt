@@ -53,7 +53,7 @@
             Message:<br>
             <textarea name="message"></textarea><br>
             <br>
-                  <button class="btn btn-primary" type="submit">Create Post</button>
+                  <button class="btn btn-primary" type="submit">Send Message</button>
         </form>
     </div>
 @endsection
