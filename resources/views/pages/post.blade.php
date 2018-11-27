@@ -25,7 +25,7 @@
         <p>You are the only person to like this.</p> <a class="btn btn-secondary" role="button" href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
         @endif
         @else
-        <p>This post has {{count($post->likes)}} likes. <a href="/like/{{$post->id}}/{{Auth::user()->id}}">Like</a>
+        <p>This post has {{count($post->likes)}} likes. <a class="btn btn-primary" role="button" href="/like/{{$post->id}}/{{Auth::user()->id}}">Like</a>
         @endif
         @endif
         @endif

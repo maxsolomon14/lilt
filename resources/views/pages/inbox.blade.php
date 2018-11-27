@@ -16,7 +16,7 @@
                 <li class="list-group-item" style="float:right">
                     <h3 style="float:right">You</h3><br>
                     <p style="float:right">{{$convo->message}}</p><br>
-                    <small style="float:right">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}}</small>
+                    <small style="float:right">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}} <a href="/delete-message/{{$convo->id}}">Unsend</a></small>
                 </li>
         @else
                 

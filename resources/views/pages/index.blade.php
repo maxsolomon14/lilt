@@ -31,6 +31,7 @@
 
     <form id="form1" action="../profile-pic/{{Auth::user()->id}}" method="post" enctype="multipart/form-data">
         @csrf
+        <br>
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <button type="submit" class="input-group-text">Upload</button>
