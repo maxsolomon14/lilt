@@ -91,8 +91,6 @@ class PostController extends Controller
 
         $likes = Like::where('post_id', $post->id)->get();
 
-        $post->likes;
-
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
 
         foreach ($likes as $like) {
