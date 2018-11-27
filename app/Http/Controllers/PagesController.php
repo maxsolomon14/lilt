@@ -35,13 +35,14 @@ class PagesController extends Controller
     {
         return view('pages.login');
     }
-    public function profile($id) {
+    public function profile(User $user) {
+        $user_posts = $user->posts;
         
-        $profile = User::where('id', $id)->get();
-        // $profile_posts = Post::where('author_id', $id)->get();
-        // $profile_comms = Comment::where('user_id', $id)->get();
+       if(Auth::user()-> id === $user->id) {
+           return redirect('/');
+       }
         
-        return view('pages.profile')->with('profile', $profile);
+        return view('pages.profile')->with('user', $user);
     }
     public function search(Request $request)
     {
