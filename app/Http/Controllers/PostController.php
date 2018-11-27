@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::simplePaginate(6);
+        $posts = Post::orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
         $user = User::all();
 
        
@@ -78,7 +78,7 @@ class PostController extends Controller
         $post->author_id = Auth::user()->id;
 
         $post->save();
-        //dd($post->id);
+        
         return redirect('post/'.$post->id);
     }
 
@@ -161,9 +161,6 @@ class PostController extends Controller
     public function image_up(Request $request, $id) {
        $path = $request->file('image')->store('/public');
        $path = str_replace("public/", "storage/", $path);
-        
-       // echo $path;
-        // dd($path);
 
        $image_path = Post::find($id);
 
