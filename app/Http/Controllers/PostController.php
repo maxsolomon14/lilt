@@ -93,7 +93,6 @@ class PostController extends Controller
 
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
 
-
         $logUnliked = trans_choice('likes.likes_not_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
         $userspost = trans_choice('likes.user_post', $post->likes->count(), ['likes' => $post->likes->count()]);
         $logLiked = trans_choice('likes.likes_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
