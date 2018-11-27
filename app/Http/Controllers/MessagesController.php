@@ -131,5 +131,33 @@ class MessagesController extends Controller
         } else {
             abort(404);
             }
-        } 
+        }
+        
+    public function create_new(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'message' => 'required|max:300',
+            'option' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous())
+                        ->withErrors($validator)
+                        ->withInput();
+                        
+        }
+
+
+        $new_message = new Message;
+
+        $new_message->sender_id = Auth::user()->id;
+
+        $new_message->recipient_id = $request->option;
+
+        $new_message->message = $request->message;
+
+        $new_message->save();
+        
+        return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
+    }
 }
