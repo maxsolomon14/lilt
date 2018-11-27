@@ -3,35 +3,34 @@
 @section('content')
 
     <div class="container-fluid">
-    @if(count($post) > 0)
-        @foreach($post as $blog_post)
-       
+    @if($post !== null)
+        
         <div class="jumbotron">
-        <h2 class="display-4">{{$blog_post->title}}</h2>
-        @if(isset($blog_post->image_path))
-        <img class="img-fluid" src="{{asset($blog_post->image_path)}}">
+        <h2 class="display-4">{{$post->title}}</h2>
+        @if(isset($post->image_path))
+        <img class="img-fluid" src="{{asset($post->image_path)}}">
         @endif
-        <p class="lead">{{$blog_post->body}}</p>
-        <small>Written by <a href="/profile/{{$blog_post->author_id}}">{{$blog_post->author_name}}</a> on {{$blog_post->created_at->format('d F Y H:i')}}</small>
-        @if ($blog_post->author_id == Auth::user()->id)
-        <p>Your post has @if(count($blog_post->likes) === 0)no likes so far.@else {{count($blog_post->likes)}} @if(count($blog_post->likes) > 1) likes so far. @else like so far.@endif @endif </p>
+        <p class="lead">{{$post->body}}</p>
+        <small>Written by <a href="/profile/{{$post->author_id}}">{{$post->author_name}}</a> on {{$post->created_at->format('d F Y H:i')}}</small>
+        @if ($post->author_id == Auth::user()->id)
+        <p>Your post has @if(count($post->likes) === 0)no likes so far.@else {{count($post->likes)}} @if(count($post->likes) > 1) likes so far. @else like so far.@endif @endif </p>
         @else
-        @if(count($blog_post->likes) < 1)
-        <p>Be the first to like {{$blog_post->author_name}}'s post.</p><a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button"> Like</a>
+        @if(count($post->likes) < 1)
+        <p>Be the first to like {{$post->author_name}}'s post.</p><a href="/like/{{$post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button"> Like</a>
         @else 
-        @if($likes or null !== App\User::find(Auth::user()->id)->likes->where('post_id', '=', $blog_post->id)->first())
-        @if(count($blog_post->likes) >= 2)
-        <p>You and {{(count($blog_post->likes) - 1)}} other @if((count($blog_post->likes) - 1) > 1) people @else person @endif have liked this post. <a href="/unlike/{{Auth::user()->id}}/{{$blog_post->id}}">Unlike</a>
+        @if($likes or null !== App\User::find(Auth::user()->id)->likes->where('post_id', '=', $post->id)->first())
+        @if(count($post->likes) >= 2)
+        <p>You and {{(count($post->likes) - 1)}} other @if((count($post->likes) - 1) > 1) people @else person @endif have liked this post. <a href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
         @else
-        <p>You are the only person to like this.</p> <a href="/unlike/{{Auth::user()->id}}/{{$blog_post->id}}">Unlike</a>
+        <p>You are the only person to like this.</p> <a href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
         @endif
         @else
-        <p>This post has {{count($blog_post->likes)}} likes. <a href="/like/{{$blog_post->id}}/{{Auth::user()->id}}">Like</a>
+        <p>This post has {{count($post->likes)}} likes. <a href="/like/{{$post->id}}/{{Auth::user()->id}}">Like</a>
         @endif
         @endif
         @endif
         
-        @if($blog_post->commented != null)
+        @if($post->commented != null)
         <h3>Comments:</h3><br>
         @foreach($comments as $comment)
         <ul class="list-group">
@@ -42,9 +41,9 @@
         </ul>
         @endforeach
         @endif
-        @if (Auth::user()->id === $blog_post->author_id)
+        @if (Auth::user()->id === $post->author_id)
         <br>
-        <form action="../image/{{$blog_post->id}}" method="post" enctype="multipart/form-data">
+        <form action="../image/{{$post->id}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -56,24 +55,24 @@
                 </div>
               </div>
         </form>
-        <a href="../edit/{{$blog_post->id}}" class="btn btn-primary">Edit Post</a>  
-        <a href="../delete-image/{{$blog_post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>  
-        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$blog_post->id}}">Delete Post</a>
+        <a href="../edit/{{$post->id}}" class="btn btn-primary">Edit Post</a>  
+        <a href="../delete-image/{{$post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>  
+        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$post->id}}">Delete Post</a>
         @endif
-        @if(Auth::user()->name != $blog_post->author_name)
+        @if(Auth::user()->name != $post->author_name)
         <h3>Add a comment:</h3>
         @if(isset($errors))
         @foreach ($errors->all() as $error)
             <h4 style="color:red">{{$error}}</h4>
         @endforeach
         @endif
-        <form action="/comment/{{$blog_post->id}}" method="POST">   
+        <form action="/comment/{{$post->id}}" method="POST">   
             @csrf
         <textarea name="comment"></textarea><br>
         <button class="btn btn-primary" type="submit">Add Comment</button>
         </form>
         @endif
-        @endforeach
+        
     @else
         <h2>Post does not exist</h2>
     @endif
