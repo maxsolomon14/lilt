@@ -20,9 +20,9 @@
         @else 
         @if($likes or null !== App\User::find(Auth::user()->id)->likes->where('post_id', '=', $post->id)->first())
         @if(count($post->likes) >= 2)
-        <p>You and {{(count($post->likes) - 1)}} other @if((count($post->likes) - 1) > 1) people @else person @endif have liked this post. <a href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
+        <p>You and {{(count($post->likes) - 1)}} other @if((count($post->likes) - 1) > 1) people @else person @endif have liked this post. <a class="btn btn-secondary" role="button" href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
         @else
-        <p>You are the only person to like this.</p> <a href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
+        <p>You are the only person to like this.</p> <a class="btn btn-secondary" role="button" href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
         @endif
         @else
         <p>This post has {{count($post->likes)}} likes. <a href="/like/{{$post->id}}/{{Auth::user()->id}}">Like</a>

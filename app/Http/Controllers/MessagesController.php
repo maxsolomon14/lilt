@@ -83,7 +83,9 @@ class MessagesController extends Controller
         //     $query->where('sender_id', '=', $recipient_id)
         //           ->orWhere('sender_id', '=', $sender_id);
         // })->first();
-
+            if($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
+                abort(404);
+            }
         $conversation = DB::select('SELECT * FROM messages Where sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
 
         $users = ['sender_id' => $sender_id,
