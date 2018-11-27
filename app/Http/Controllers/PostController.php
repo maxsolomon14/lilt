@@ -88,15 +88,14 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post, $id)
+    public function show(Post $post)
     {
        
+        $comments = Comment::where('post_id', $post->id)->get();
 
-        $post = Post::where('id', $id)->get();
-    
-        $comments = Comment::where('post_id', $id)->get();
+        $likes = Like::where('post_id', $post->id)->get();
 
-        $likes = Like::where('post_id', $id)->get();
+
 
         foreach ($likes as $like) {
             if ($like->user_id == Auth::user()->id) {
@@ -115,9 +114,9 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post, $id)
+    public function edit(Post $post)
     {
-        $edit_post = Post::where('id', $id)->first();
+        $edit_post = $post;
 
         return view('pages.edit')->with('edit_post', $edit_post);
     }
@@ -129,9 +128,8 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post, $id)
+    public function update(Post $post, Request $request)
     {
-        $post = Post::find($id);
 
         $post->title = $request->title;
 
@@ -139,7 +137,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect('/post/'.$id);
+        return redirect('/post/'.$post->id);
     }
 
     /**
@@ -148,17 +146,15 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, $id)
+    public function destroy(Post $post)
     {
-        $post_delete = Post::find($id);
-
-        $post_delete->delete();
+        $post->delete();
 
         return redirect('/posts');
         
     }
 
-    public function image_up(Request $request, $id) {
+    public function image_up(Post $post, Request $request) {
         if ($request->file('image') == null) {
             return redirect(url()->previous());
         }
@@ -166,24 +162,22 @@ class PostController extends Controller
        $path = $request->file('image')->store('/public');
        $path = str_replace("public/", "storage/", $path);
 
-       $image_path = Post::find($id);
 
-       $image_path->image_path = $path;
+       $post->image_path = $path;
 
-       $image_path->save();
+       $post->save();
 
 
-       return redirect('/post/'.$id);
+       return redirect('/post/'.$post->id);
     }
 
-    public function delete_image($id) {
-        $image = Post::find($id);
+    public function delete_image(Post $post) {
 
-        $image->image_path = null;
+        $post->image_path = null;
 
-        $image->save();
+        $post->save();
 
-        return redirect('/post/'.$id);
+        return redirect('/post/'.$post->id);
     }
 
     
