@@ -2,7 +2,7 @@
                 <a class="navbar-brand" href="/">{{config('app.name', 'Blue Bay')}}</a>
                     <div>
               <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="/">Home</a>
                 </li>
                 @if(Auth::check())

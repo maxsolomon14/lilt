@@ -95,7 +95,9 @@ class PostController extends Controller
 
         $likes = Like::where('post_id', $post->id)->get();
 
+        $post->likes;
 
+        $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
 
         foreach ($likes as $like) {
             if ($like->user_id == Auth::user()->id) {
@@ -103,9 +105,19 @@ class PostController extends Controller
             } else {
                 $likes = false;
             }
-        } 
+        }
 
-        return view('pages.post')->with('post', $post)->with('comments', $comments)->with('likes', $likes);
+        $logUnliked = trans_choice("likes.likes_not_liked", $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
+        $userspost = trans_choice("likes.user_post", $post->likes->count(), ['likes' => $post->likes->count()]);
+        $logLiked = trans_choice("likes.likes_liked", $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
+
+        if($likes or $hasLiked) {
+            $hasLiked = true;
+        } else {
+            $hasLiked = false;
+        }
+
+        return view('pages.post')->withpost($post)->withhasLiked($hasLiked)->withlogUnliked($logUnliked)->withlogLiked($logLiked)->withuserspost($userspost);
     }
 
     /**
@@ -117,6 +129,10 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $edit_post = $post;
+
+        if ($post->author_id !== Auth::user()->id) {
+            abort(404);
+        }
 
         return view('pages.edit')->with('edit_post', $edit_post);
     }
