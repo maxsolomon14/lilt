@@ -21,10 +21,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                   </li>
-                <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+                <form id="searchForm" name="searchForm" class="form-inline my-2 my-lg-0" action="/search" method="post">
                   @csrf
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search For</button>
+                        <input class="span2" id="search_type" name="search_type" type="hidden">
+                        <input type="search" class="form-control mr-sm-2" name="search" aria-label="Text input with dropdown button">
+                        <ul name="type" class="dropdown-menu">
+                          
+                          <li class="dropdown-item" onclick="$('#search_type').val('post'); $('#searchForm').submit()">Post</li>
+                          <li class="dropdown-item" onclick="$('#search_type').val('users'); $('#searchForm').submit()">User</li>
+                          
+                        </ul>
+                      </div>
+                      
+                    </div>
+                    
                   </form>
                 @endif
               </ul>

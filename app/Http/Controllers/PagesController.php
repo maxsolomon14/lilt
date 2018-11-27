@@ -45,23 +45,36 @@ class PagesController extends Controller
     }
     public function search(Request $request)
     {
-       
+    //    dd($request->all());
         $validator = Validator::make($request->all(), [
             'search' => 'required|max:20',
+            'search_type' => 'required',
         ]);
+
+            if($request->search == null) {
+                return redirect(url()->previous());
+            }
+
         if(! $validator->fails()) {
             $criteria = $request->search;
-            if($criteria == '') {
-                abort(404);
-            }
+            
+        if($request->search_type === 'users') {
         $user = User::where('name', 'like', '%'.$criteria.'%')->first();
-      
         return redirect('/profile/'.$user->id);
-        } else {
+        } 
+        
+
+        if($request->search_type === 'post') {
+            $user = Post::where('title', 'like', '%'.$criteria.'%')->first();
+            return redirect('/post/'.$user->id);
+        } 
             return redirect(url()->previous());
-        }
-    
+        
     }
+        }
+      
+        
+    
     public function profiles() {
         $profiles = User::all();
         
