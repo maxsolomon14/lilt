@@ -17,12 +17,10 @@
         @if ($post->author_id == Auth::user()->id)
         <p>{{$userspost}}</p>
         @else
-        @if($post->likes->isEmpty())
-        <p>{{$logUnliked}}</p> <a href="/like/{{$post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button">Like</a>
-        @else
         @if($hasLiked)
         <p>{{$logLiked}}</p> <a class="btn btn-secondary" role="button" href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
-        @endif
+        @else
+        <p>{{$logUnliked}}</p> <a href="/like/{{$post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button">Like</a>
         @endif
         @endif
         
