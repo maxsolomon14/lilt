@@ -89,23 +89,15 @@ class PostController extends Controller
     {
         $comments = Comment::where('post_id', $post->id)->get();
 
-        $likes = Like::where('post_id', $post->id)->get();
+        $likes = Like::where('post_id', $post->id)->first();
 
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
-
-        foreach ($likes as $like) {
-            if ($like->user_id == Auth::user()->id) {
-                $likes = true;
-            } else {
-                $likes = false;
-            }
-        }
 
         $logUnliked = trans_choice('likes.likes_not_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
         $userspost = trans_choice('likes.user_post', $post->likes->count(), ['likes' => $post->likes->count()]);
         $logLiked = trans_choice('likes.likes_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
 
-        if ($likes or $hasLiked) {
+        if ($likes !== null or $hasLiked) {
             $hasLiked = true;
         } else {
             $hasLiked = false;
