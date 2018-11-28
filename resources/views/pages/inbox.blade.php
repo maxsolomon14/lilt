@@ -39,19 +39,19 @@
         <h3>You have no messages with this person, start a conversation below!</h3>
         @endif
         @if(Auth::user()->id == $users['sender_id'])
-            <form method="POST" action="/send/{{$users['sender_id']}}/{{$users['recipient_id']}}">
+            <form class="form-group" method="POST" action="/send/{{$users['sender_id']}}/{{$users['recipient_id']}}">
                 @csrf
                 <label for="message">Message</label><br>
-                <textarea name="message" placeholder="Send a message..."></textarea><br>
+                <textarea class="form-control" name="message" placeholder="Send a message..."></textarea><br>
                 <input type="submit" class="btn btn-primary">
 
             </form>
         </div>
         @else
-            <form method="POST" action="/send/{{$users['recipient_id']}}/{{$users['sender_id']}}">
+            <form class="from-group" method="POST" action="/send/{{$users['recipient_id']}}/{{$users['sender_id']}}">
                 @csrf
                 <label for="message">Message</label><br>
-                <textarea name="message" placeholder="Send a message..."></textarea><br>
+                <textarea class="form-control" name="message" placeholder="Send a message..."></textarea><br>
                 <input type="submit" class="btn btn-primary">
 
             </form>

@@ -12,12 +12,12 @@
 @endforeach
 @endif
 
-<form class="" method="post" action="/store" enctype="multipart/form-data">
+<form class="form-group" method="post" action="/store" enctype="multipart/form-data">
     @csrf
     Title:<br>
-    <input type="text" name="title"><br>
+    <input class="form-control" type="text" name="title"><br>
     Body:<br>
-    <textarea name="body"></textarea><br>
+    <textarea class="form-control" name="body"></textarea><br>
     <br>
     <div class="input-group mb-3">
             <div class="custom-file">

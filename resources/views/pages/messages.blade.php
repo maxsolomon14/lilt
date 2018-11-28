@@ -40,10 +40,10 @@
         @endforeach
         @endif
         <h2 class="display-4">Create New Message</h2>
-        <form class="" method="post" action="../create-message">
+        <form class="form-group" method="post" action="../create-message">
             @csrf
         To:<br>
-            <select name="option">
+            <select class="form-control" name="option">
                 @foreach(App\User::all() as $option)
                 @if($option->id !== Auth::user()->id)
                 <option value="{{$option->id}}">{{$option->name}}</option>
@@ -51,7 +51,7 @@
                 @endforeach
             </select><br>
             Message:<br>
-            <textarea name="message"></textarea><br>
+            <textarea class="form-control" name="message"></textarea><br>
             <br>
                   <button class="btn btn-primary" type="submit">Send Message</button>
         </form>
