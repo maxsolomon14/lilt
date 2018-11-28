@@ -9,9 +9,9 @@
 
         <form class="form-group" method="post" action="/update/{{ $edit_post->id }}">
             @csrf
-            Title:<br>
+            Post Title:<br>
             <input class="form-control" type="text" name="title" value="{{ $edit_post->title }}"><br>
-            Body:<br>
+            Post Content:<br>
             <textarea class="form-control" name="body">{{ $edit_post->body }}</textarea><br>
             <button class="btn btn-primary" type="submit">Save Post</button>
         </form>
