@@ -44,7 +44,6 @@ class Post extends Model
 
     public function scopeSearch($query, $criteria)
     {
-        return $query->where('title', 'like', '%' . $criteria . '%');
+        return $query->where('title', 'like', '%'.$criteria.'%');
     }
-
 }
