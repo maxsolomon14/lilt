@@ -25,7 +25,7 @@ class PostController extends Controller
         $posts = Post::orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
         $user = User::all();
 
-        return view('pages.posts')->with('posts', $posts)->with('user', $user);
+        return view('pages.posts')->withPosts($posts)->withUser($user);
     }
 
     /**
@@ -66,10 +66,10 @@ class PostController extends Controller
             $path = null;
         }
         $post = Post::create(['title'           => $request->title,
-                                  'body'        => $request->body,
-                                  'image_path'  => $path,
-                                  'author_name' => Auth::user()->name,
-                                  'author_id'   => Auth::user()->id, ]);
+                              'body'        => $request->body,
+                              'image_path'  => $path,
+                              'author_name' => Auth::user()->name,
+                              'author_id'   => Auth::user()->id, ]);
 
         return redirect('post/'.$post->id);
     }
@@ -83,7 +83,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $comments = Comment::where('post_id', $post->id)->get();
 
         $likes = Like::where('post_id', $post->id)->first();
 
@@ -117,7 +116,7 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view('pages.edit')->with('edit_post', $edit_post);
+        return view('pages.edit')->withEditPost($edit_post);
     }
 
     /**
@@ -130,11 +129,9 @@ class PostController extends Controller
      */
     public function update(Post $post, Request $request)
     {
-        $post->title = $request->title;
+        $post->update(['title' => $request->title,
+                       'body' => $request->body, ]);
 
-        $post->body = $request->body;
-
-        $post->save();
 
         return redirect('/post/'.$post->id);
     }
