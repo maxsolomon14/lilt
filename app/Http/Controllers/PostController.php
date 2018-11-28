@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Like;
 use App\Post;
 use App\User;
@@ -66,10 +65,10 @@ class PostController extends Controller
             $path = null;
         }
         $post = Post::create(['title'           => $request->title,
-                              'body'        => $request->body,
-                              'image_path'  => $path,
-                              'author_name' => Auth::user()->name,
-                              'author_id'   => Auth::user()->id, ]);
+                              'body'            => $request->body,
+                              'image_path'      => $path,
+                              'author_name'     => Auth::user()->name,
+                              'author_id'       => Auth::user()->id, ]);
 
         return redirect('post/'.$post->id);
     }
@@ -83,7 +82,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
         $likes = Like::where('post_id', $post->id)->first();
 
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
@@ -130,8 +128,7 @@ class PostController extends Controller
     public function update(Post $post, Request $request)
     {
         $post->update(['title' => $request->title,
-                       'body' => $request->body, ]);
-
+                       'body'  => $request->body, ]);
 
         return redirect('/post/'.$post->id);
     }
