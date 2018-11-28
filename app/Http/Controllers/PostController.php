@@ -61,11 +61,11 @@ class PostController extends Controller
         $path = $request->file('image')->store('/public');
         $path = str_replace('public/', 'storage/', $path);
 
-        $new_post = Post::create(['title'      => $request->title,
-                                  'body'    => $request->body,
-                                  'image_path' => $path,
+        $new_post = Post::create(['title'       => $request->title,
+                                  'body'        => $request->body,
+                                  'image_path'  => $path,
                                   'author_name' => Auth::user()->name,
-                                  'author_id' => Auth::user()->id,]);
+                                  'author_id'   => Auth::user()->id, ]);
 
         return Redirect::route('post/'.$new_post->id);
     }
