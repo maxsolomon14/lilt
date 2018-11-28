@@ -70,6 +70,7 @@ class PostController extends Controller
                                   'author_name' => Auth::user()->name,
                                   'author_id' => Auth::user()->id, ]);
 
+
         return redirect('post/'.$post->id);
     }
 
