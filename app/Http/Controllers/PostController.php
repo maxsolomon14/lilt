@@ -61,21 +61,13 @@ class PostController extends Controller
         $path = $request->file('image')->store('/public');
         $path = str_replace('public/', 'storage/', $path);
 
-        $post = new Post();
+        $new_post = Post::create(['title'      => $request->title,
+                                  'body'    => $request->body,
+                                  'image_path' => $path,
+                                  'author_name' => Auth::user()->name,
+                                  'author_id' => Auth::user()->id,]);
 
-        $post->title = $request->title;
-
-        $post->body = $request->body;
-
-        $post->image_path = $path;
-
-        $post->author_name = Auth::user()->name;
-
-        $post->author_id = Auth::user()->id;
-
-        $post->save();
-
-        return redirect('post/'.$post->id);
+        return Redirect::route('post/'.$new_post->id);
     }
 
     /**
@@ -103,7 +95,7 @@ class PostController extends Controller
             $hasLiked = false;
         }
 
-        return view('pages.post')->withpost($post)->withhasLiked($hasLiked)->withlogUnliked($logUnliked)->withlogLiked($logLiked)->withuserspost($userspost);
+        return view('pages.post')->withPost($post)->withHasLiked($hasLiked)->withlogUnliked($logUnliked)->withlogLiked($logLiked)->withuserspost($userspost);
     }
 
     /**
