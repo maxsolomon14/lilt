@@ -19,7 +19,6 @@ class MessagesController extends Controller
     public function index()
     {
         $user = Auth::user()->id;
-
         $messages = Message::where(function ($query) use ($user) {
             $query->where('sender_id', '=', $user)
                   ->orWhere('recipient_id', '=', $user);
@@ -55,13 +54,11 @@ class MessagesController extends Controller
         $validator = Validator::make($request->all(), [
             'message' => 'required|max:300',
         ]);
-
         if ($validator->fails()) {
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
         }
-
         $new_message = Message::create(['message'      => $request->message,
                                         'sender_id'    => $sender_id,
                                         'recipient_id' => $recipient_id, ]);
@@ -86,7 +83,6 @@ class MessagesController extends Controller
             abort(404);
         }
         $conversation = DB::select('SELECT * FROM messages Where sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
-
         $users = ['sender_id'    => $sender_id,
                   'recipient_id' => $recipient_id, ];
 
@@ -142,21 +138,15 @@ class MessagesController extends Controller
             'message' => 'required|max:300',
             'option'  => 'required',
         ]);
-
         if ($validator->fails()) {
             return redirect(url()->previous())
                         ->withErrors($validator)
                         ->withInput();
         }
-
         $new_message = new Message();
-
         $new_message->sender_id = Auth::user()->id;
-
         $new_message->recipient_id = $request->option;
-
         $new_message->message = $request->message;
-
         $new_message->save();
 
         return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
