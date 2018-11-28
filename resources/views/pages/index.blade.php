@@ -11,9 +11,9 @@
     
     @else
     
-    <h2 class="display-4">Welcome to your profile {{Auth::user()->name}}!</h2>
-    @if(! isset(Auth::user()->image_path))
-    <form action="../profile-pic/{{Auth::user()->id}}" method="post" enctype="multipart/form-data">
+    <h2 class="display-4">Welcome to your profile {{$userNow->name}}!</h2>
+    @if(! isset($userNow->image_path))
+    <form action="../profile-pic/{{$userNow->id}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -26,10 +26,10 @@
               </div>
         </form>
     @else
-    <img style="width:200px;height:200px;"src="{{asset(Auth::user()->image_path)}}" class="rounded"><br>
+    <img style="width:200px;height:200px;"src="{{asset($userNow->image_path)}}" class="rounded"><br>
     <br><button class="btn btn-info" type="button" id="formButton">Change Profile Picture</button>
 
-    <form id="form1" action="../profile-pic/{{Auth::user()->id}}" method="post" enctype="multipart/form-data">
+    <form id="form1" action="../profile-pic/{{$userNow->id}}" method="post" enctype="multipart/form-data">
         @csrf
         <br>
         <div class="input-group mb-3">

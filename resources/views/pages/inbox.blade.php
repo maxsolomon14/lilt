@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    @if (Auth::user()->id == $users['sender_id'])
+    @if ($userNow->id == $users['sender_id'])
 
     <div class="jumbotron">
         
@@ -11,12 +11,12 @@
         
         
             <ul class="list-group">
-        @if ($convo->sender_id === Auth::user()->id)
+        @if ($convo->sender_id === $userNow->id)
                 
                 <li class="list-group-item" style="float:right">
-                    <h3 style="float:right">You</h3><br>
-                    <p style="float:right">{{$convo->message}}</p><br>
-                    <small style="float:right">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}} <a href="/delete-message/{{$convo->id}}">Unsend</a></small>
+                    <h3 style="text-align: right;">You</h3>
+                    <p style="text-align: right;">{{$convo->message}}</p>
+                    <small style="float: right;">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}} <a href="/delete-message/{{$convo->id}}">Unsend</a></small>
                 </li>
         @else
                 
@@ -38,7 +38,7 @@
         @else
         <h3>You have no messages with this person, start a conversation below!</h3>
         @endif
-        @if(Auth::user()->id == $users['sender_id'])
+        @if($userNow->id == $users['sender_id'])
             <form class="form-group" method="POST" action="/send/{{$users['sender_id']}}/{{$users['recipient_id']}}">
                 @csrf
                 <label for="message">Message</label><br>
