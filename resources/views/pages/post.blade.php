@@ -2,6 +2,7 @@
 
 @section('content')
 
+    
     <div class="container-fluid">
     @if($post !== null)
     
@@ -14,13 +15,13 @@
         <p class="lead">{{$post->body}}</p>
         <small>Written by <a href="/profile/{{$post->author_id}}">{{$post->author_name}}</a> on {{$post->created_at->format('d F Y H:i')}}</small>
         
-        @if ($post->author_id == Auth::user()->id)
+        @if ($post->author_id == $userNow->id)
         <p>{{$userspost}}</p>
         @else
         @if($hasLiked)
-        <p>{{$logLiked}}</p> <a class="btn btn-secondary" role="button" href="/unlike/{{Auth::user()->id}}/{{$post->id}}">Unlike</a>
+        <p>{{$logLiked}}</p> <a class="btn btn-secondary" role="button" href="/unlike/{{$userNow->id}}/{{$post->id}}">Unlike</a>
         @else
-        <p>{{$logUnliked}}</p> <a href="/like/{{$post->id}}/{{Auth::user()->id}}" class="btn btn-primary" role="button">Like</a>
+        <p>{{$logUnliked}}</p> <a href="/like/{{$post->id}}/{{$userNow->id}}" class="btn btn-primary" role="button">Like</a>
         @endif
         @endif
         
@@ -35,7 +36,7 @@
         </ul>
         @endforeach
         @endif
-        @if (Auth::user()->id === $post->author_id)
+        @if ($userNow->id === $post->author_id)
         <br>
         <form action="../image/{{$post->id}}" method="post" enctype="multipart/form-data">
         @csrf
@@ -53,7 +54,7 @@
         @if (isset($post->image_path))<a href="../delete-image/{{$post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>@endif
         <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$post->id}}">Delete Post</a>
         @endif
-        @if(Auth::user()->name != $post->author_name)
+        @if($userNow->name != $post->author_name)
         <h3>Add a comment:</h3>
         @if(isset($errors))
         @foreach ($errors->all() as $error)

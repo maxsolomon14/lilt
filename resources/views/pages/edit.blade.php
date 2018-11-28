@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    @if (Auth::user()->id != $edit_post->author_id)
+    @if ($userNow->id != $edit_post->author_id)
     <h2 style="color:red">You cannot edit {{$edit_post->author_name}}'s post!</h2>
     @else
     <div class="jumbotron">

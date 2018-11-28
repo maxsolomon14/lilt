@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <h2 class="display-4">Profiles</h2>
     @foreach ($profiles as $profile)
-        @if(Auth::user()->id !== $profile->id)
+        @if($userNow->id !== $profile->id)
         <ul class="list-group">
             <li class="list-group-item">
                     @if (isset($profile->image_path))
