@@ -8,7 +8,7 @@ use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Redirect;
 use Validator;
 
 class PostController extends Controller
@@ -59,9 +59,13 @@ class PostController extends Controller
                         ->withInput();
         }
 
+
+        if ($request->file('image_path') !== null) {
         $path = $request->file('image')->store('/public');
         $path = str_replace('public/', 'storage/', $path);
-
+        } else{
+            $path = null;
+        }
         $post = Post::create(['title'           => $request->title,
                                   'body'        => $request->body,
                                   'image_path'  => $path,

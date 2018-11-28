@@ -19,7 +19,13 @@ class Post extends Model
         'author_name',
 ];
 
-    protected $casts = ['name' => 'string'];
+    protected $casts = [
+        'title' => 'string',
+        'body' => 'string',
+        'image_path' => 'string',
+        'author_id' => 'integer',
+        'author_name' => 'string',
+];
 
     public function comments()
     {
