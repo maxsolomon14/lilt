@@ -78,7 +78,6 @@ class MessagesController extends Controller
      */
     public function show(Message $message, $sender_id, $recipient_id)
     {
-        
         if ($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
             abort(404);
         }
