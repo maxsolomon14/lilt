@@ -57,22 +57,23 @@ class PagesController extends Controller
             $criteria = $request->search;
 
             if ($request->search_type === 'users') {
-                $user = User::where('name', 'like', '%' . $criteria . '%')->first();
-                if ($user == null) {
+                $user = User::search($criteria)->first();
+                if (!$user) {
                     return redirect(url()->previous());
-                } else {
-                    return redirect('/profile/' . $user->id);
                 }
+                    return redirect('/profile/' . $user->id);
+
             }
 
             if ($request->search_type === 'post') {
-                $post = Post::where('title', 'like', '%' . $criteria . '%')->first();
-                if ($post == null) {
+                $post = Post::search($criteria)->first();
+
+                if (!$post) {
                     return redirect(url()->previous());
 
-                } else {
-                    return redirect('/post/' . $post->id);
                 }
+                    return redirect('/post/' . $post->id);
+
             }
 
             return redirect(url()->previous());
