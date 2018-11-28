@@ -78,10 +78,6 @@ class MessagesController extends Controller
      */
     public function show(Message $message, $sender_id, $recipient_id)
     {
-        // $users = Message::where(function ($query) use ($recipient_id, $sender_id) {
-        //     $query->where('sender_id', '=', $recipient_id)
-        //           ->orWhere('sender_id', '=', $sender_id);
-        // })->first();
         if ($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
             abort(404);
         }
@@ -148,16 +144,9 @@ class MessagesController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-
-        $new_message = new Message();
-
-        $new_message->sender_id = Auth::user()->id;
-
-        $new_message->recipient_id = $request->option;
-
-        $new_message->message = $request->message;
-
-        $new_message->save();
+        $new_message = Message::create(['message'      => $request->message,
+                                        'sender_id'    => Auth::user()->id,
+                                        'recipient_id' => $request->option, ]);
 
         return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
     }
