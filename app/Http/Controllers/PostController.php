@@ -59,11 +59,10 @@ class PostController extends Controller
                         ->withInput();
         }
 
-
         if ($request->file('image_path') !== null) {
-        $path = $request->file('image')->store('/public');
-        $path = str_replace('public/', 'storage/', $path);
-        } else{
+            $path = $request->file('image')->store('/public');
+            $path = str_replace('public/', 'storage/', $path);
+        } else {
             $path = null;
         }
         $post = Post::create(['title'           => $request->title,

@@ -20,10 +20,10 @@ class Post extends Model
 ];
 
     protected $casts = [
-        'title' => 'string',
-        'body' => 'string',
-        'image_path' => 'string',
-        'author_id' => 'integer',
+        'title'       => 'string',
+        'body'        => 'string',
+        'image_path'  => 'string',
+        'author_id'   => 'integer',
         'author_name' => 'string',
 ];
 
