@@ -49,8 +49,8 @@
                 </div>
               </div>
         </form>
-        <a href="../edit/{{$post->id}}" class="btn btn-primary">Edit Post</a>  
-        <a href="../delete-image/{{$post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>  
+        <a href="../edit/{{$post->id}}" class="btn btn-primary">Edit Post</a>
+        @if (isset($post->image_path))<a href="../delete-image/{{$post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>@endif
         <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$post->id}}">Delete Post</a>
         @endif
         @if(Auth::user()->name != $post->author_name)
