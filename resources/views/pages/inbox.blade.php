@@ -4,12 +4,14 @@
 
     <div class="jumbotron">
         
-            <h2 class="display-4">Inbox with {{App\User::find($users['recipient_id'])->name}}</h2>
+
         
         @if (! empty($conversation))
+
+                    <h3 style="text-align: center;" class="display-4">Inbox with {{App\User::find($users['recipient_id'])->name}}</h3>
         @foreach ($conversation as $convo)
-        
-        
+
+                <div class="card" style="max-width: 35rem; margin: 0 auto">
             <ul class="list-group">
         @if ($convo->sender_id === $userNow->id)
                 
@@ -26,6 +28,7 @@
                 </li>
         @endif
             </ul>
+                </div>
         @endforeach
         @if(isset($errors))
 
