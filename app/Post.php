@@ -11,7 +11,13 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'title',
+        'body',
+        'image_path',
+        'author_id',
+        'author_name',
+];
 
     protected $casts = ['name' => 'string'];
 
