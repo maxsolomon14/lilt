@@ -22,7 +22,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/post/{post}', 'PostController@show');
     Route::get('/profile/{user}', 'PagesController@profile');
     Route::get('/logout', 'Auth\LoginController@logout');
-    //Route::get('/login', "PagesController@login");
     Route::post('/store', 'PostController@store');
     Route::post('/search', 'PagesController@search');
     Route::post('/comment/{id}', 'CommentController@AddComment');

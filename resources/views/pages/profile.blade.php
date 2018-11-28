@@ -13,7 +13,7 @@
         <p class="lead">{{$user->name}} has been a member of BBB since {{$user->created_at->format('Y')}}.</p>
         <a href="/inbox/{{$userNow->id}}/{{$user->id}}" role="button" class="btn btn-primary">Chat with {{$user->name}}</a>
         @if(count($user->posts) > 0)
-        <h3>Here are {{$user->name}}'s posts:</h3>
+        <h3 class="display-4">Here are {{$user->name}}'s posts:</h3>
         
         @foreach ($user->posts as $post)
         <ul class="list-group">
@@ -24,7 +24,7 @@
         </ul>
         @endforeach
 
-        <h3>Here are all of {{$user->name}}'s comments:</h3>
+        <h3 class="display-4">Here are all of {{$user->name}}'s comments:</h3>
 
         @foreach ($user->comments as $comment)
         <ul class="list-group">

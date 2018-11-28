@@ -38,12 +38,12 @@ class PagesController extends Controller
             return redirect('/');
         }
 
-        return view('pages.profile')->with('user', $user);
+        return view('pages.profile')->withUser($user);
     }
 
     public function search(Request $request)
     {
-        //    dd($request->all());
+
         $validator = Validator::make($request->all(), [
             'search'      => 'required|max:20',
             'search_type' => 'required',
@@ -84,7 +84,7 @@ class PagesController extends Controller
     {
         $profiles = User::all();
 
-        return view('pages.results')->with('profiles', $profiles);
+        return view('pages.results')->withProfiles($profiles);
     }
 
     public function image()
