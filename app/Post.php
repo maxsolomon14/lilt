@@ -41,4 +41,9 @@ class Post extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function scopeSearch($query, $criteria)
+    {
+        return $query->where('title', 'like', '%'.$criteria.'%');
+    }
 }

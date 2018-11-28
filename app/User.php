@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Like');
     }
+
+    public function scopeSearch($query, $criteria)
+    {
+        return $query->where('name', 'like', '%'.$criteria.'%');
+    }
 }
