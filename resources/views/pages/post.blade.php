@@ -60,9 +60,9 @@
             <h4 style="color:red">{{$error}}</h4>
         @endforeach
         @endif
-        <form action="/comment/{{$post->id}}" method="POST">   
+        <form class="form-group" action="/comment/{{$post->id}}" method="POST">   
             @csrf
-        <textarea name="comment"></textarea><br>
+        <textarea class="form-control" name="comment"></textarea><br>
         <button class="btn btn-primary" type="submit">Add Comment</button>
         </form>
         @endif
