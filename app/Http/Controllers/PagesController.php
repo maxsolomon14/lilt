@@ -61,8 +61,8 @@ class PagesController extends Controller
                 if (!$user) {
                     return redirect(url()->previous());
                 }
-                    return redirect('/profile/' . $user->id);
 
+                return redirect('/profile/'.$user->id);
             }
 
             if ($request->search_type === 'post') {
@@ -70,10 +70,9 @@ class PagesController extends Controller
 
                 if (!$post) {
                     return redirect(url()->previous());
-
                 }
-                    return redirect('/post/' . $post->id);
 
+                return redirect('/post/'.$post->id);
             }
 
             return redirect(url()->previous());
