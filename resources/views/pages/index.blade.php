@@ -13,7 +13,7 @@
     
     <h2 class="display-4">Welcome to your profile {{$userNow->name}}!</h2>
     @if(! isset($userNow->image_path))
-    <form action="../profile-pic/{{$userNow->id}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('profile-pic', $userNow->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -29,7 +29,7 @@
     <img style="width:200px;height:200px;"src="{{asset($userNow->image_path)}}" class="rounded"><br>
     <br><button class="btn btn-info" type="button" id="formButton">Change Profile Picture</button>
 
-    <form id="form1" action="../profile-pic/{{$userNow->id}}" method="post" enctype="multipart/form-data">
+    <form id="form1" action="{{route('profile-pic', $userNow->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         <br>
         <div class="input-group mb-3">
@@ -50,13 +50,13 @@
         <ul class="list-group">
             <li class="list-group-item">
             <small>Written at {{$post->created_at->format('d/m/Y H:i')}}</small>
-            <h2><a href="/post/{{$post->id}}">{{$post->title}}</a></h2>
+            <h2><a href="{{route('post.show', $post->id)}}">{{$post->title}}</a></h2>
         
 
         
     @foreach ($post->comments as $comment)
         <ul class="list-group">
-            <li class="list-group-item">{{$comment->comment}} - by <a href="profile/{{$comment->user_id}}">{{$comment->user_name}}</a></li>
+            <li class="list-group-item">{{$comment->comment}} - by <a href="{{route('profile', $comment->user_id)}}">{{$comment->user_name}}</a></li>
         </ul> 
     @endforeach
             </li>

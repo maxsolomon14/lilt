@@ -8,7 +8,7 @@
 
         @if (! empty($conversation))
 
-                    <h3 style="text-align: center;" class="display-4">Inbox with {{App\User::find($users['recipient_id'])->name}}</h3>
+                    <h3 style="text-align: center;" class="display-4">Inbox with {{$userInfo->name}}</h3>
         @foreach ($conversation as $convo)
 
                 <div class="card" style="max-width: 35rem; margin: 0 auto">
@@ -24,7 +24,7 @@
 
                 <li class="list-group-item" style="float:left">
                     @if (isset($userInfo->image_path))
-                        <a href="/profile/{{$convo->sender_id}}"><img style="width:40px;height:40px;"src="{{asset($userInfo->image_path)}}" class="rounded"></a>
+                        <a href="{{route('profile', $userInfo->id)}}"><img style="width:40px;height:40px;"src="{{asset($userInfo->image_path)}}" class="rounded"></a>
                     @endif
                     <h3>{{$userInfo->name}}</h3>{{$convo->message}}<br>
                     <small style="float:left">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}}</small>
@@ -45,7 +45,7 @@
         <h3>You have no messages with this person, start a conversation below!</h3>
         @endif
         @if($userNow->id == $users['sender_id'])
-            <form class="form-group" method="POST" action="/send/{{$users['sender_id']}}/{{$users['recipient_id']}}">
+            <form class="form-group" method="POST" action="{{route('send', ['sender_id' => $users['sender_id'], 'recipient_id' => $users['recipient_id'], ])}}">
                 @csrf
                 <label for="message">Message</label><br>
                 <textarea class="form-control" name="message" placeholder="Send a message..."></textarea><br>
@@ -54,7 +54,7 @@
             </form>
         </div>
         @else
-            <form class="from-group" method="POST" action="/send/{{$users['recipient_id']}}/{{$users['sender_id']}}">
+            <form class="from-group" method="POST" action="{{route('send', ['sender_id' => $users['recipient_id'], 'recipient_id' => $users['sender_id'], ])}}">
                 @csrf
                 <label for="message">Message</label><br>
                 <textarea class="form-control" name="message" placeholder="Send a message..."></textarea><br>

@@ -7,7 +7,7 @@
     <div class="jumbotron">
         <h2 class="display-4">Edit Post</h2>
 
-        <form class="form-group" method="post" action="/update/{{ $editpost->id }}">
+        <form class="form-group" method="post" action="{{route('update-post', $editpost->id)}}">
             @csrf
             Post Title:<br>
             <input class="form-control" type="text" name="title" value="{{ $editpost->title }}"><br>

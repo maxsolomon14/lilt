@@ -8,18 +8,19 @@
     @foreach ($messages as $inbox)
     
     @if ($inbox->sender_id !== $userNow->id)
-       
+
+
    
             <ul class="list-group">
                 <li class="list-group-item">
-                <h2><a href="../inbox/{{$inbox->recipient_id}}/{{$inbox->sender_id}}">@if ($userNow->id !== $inbox->sender_id){{App\User::find($inbox->sender_id)->name}} @else {{App\User::find($inbox->recipient_id)->name}} @endif</a></h2>
+                <h2><a href="{{route('inbox', ['sender_id' => $inbox->recipient_id, 'recipient_id' => $inbox->sender_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser[($inbox->sender_id - 1)]->name}} @else {{$findUser[($inbox->recipient_id - 1)]->name}} @endif</a></h2>
                 <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
                 </li>
             </ul>
     @else
     <ul class="list-group">
         <li class="list-group-item">
-        <h2><a href="../inbox/{{$inbox->sender_id}}/{{$inbox->recipient_id}}">@if ($userNow->id !== $inbox->sender_id){{App\User::find($inbox->sender_id)->name}} @else {{App\User::find($inbox->recipient_id)->name}} @endif</a></h2>
+        <h2><a href="{{route('inbox', ['sender_id' => $inbox->sender_id, 'recipient_id' => $inbox->recipient_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser[($inbox->sender_id - 1)]->name}} @else {{$findUser[($inbox->recipient_id - 1)]->name}} @endif</a></h2>
             <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
         </li>
     </ul>
@@ -44,7 +45,7 @@
             @csrf
         To:<br>
             <select class="form-control" name="option">
-                @foreach(App\User::all() as $option)
+                @foreach($findUser as $option)
                 @if($option->id !== $userNow->id)
                 <option value="{{$option->id}}">{{$option->name}}</option>
                 @endif

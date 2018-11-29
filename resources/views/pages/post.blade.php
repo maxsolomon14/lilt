@@ -13,7 +13,7 @@
         @endif
 
         <p class="lead">{{$post->body}}</p>
-        <small>Written by <a href="/profile/{{$post->author_id}}">{{$post->author_name}}</a> on {{$post->created_at->format('d F Y H:i')}}</small>
+        <small>Written by <a href="{{route('profile', $post->author_id)}}">{{$post->author_name}}</a> on {{$post->created_at->format('d F Y H:i')}}</small>
         
         @if ($post->author_id == $userNow->id)
         <p>{{$userspost}}</p>
@@ -26,7 +26,7 @@
         @foreach($post->comments as $comment)
         <ul class="list-group">
             <li class="list-group-item">
-                <small>Written by <a href="/profile/{{$comment->user_id}}">{{$comment->user_name}}</a> on {{$comment->created_at->format('d F Y')}}</small><br>
+                <small>Written by <a href="{{route('profile', $comment->user_id)}}">{{$comment->user_name}}</a> on {{$comment->created_at->format('d F Y')}}</small><br>
                 {{$comment->comment}}
             </li>
         </ul>
@@ -34,7 +34,7 @@
         @endif
         @if ($userNow->id === $post->author_id)
         <br>
-        <form action="../image/{{$post->id}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('image_up', $post->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -46,9 +46,9 @@
                 </div>
               </div>
         </form>
-        <a href="../edit/{{$post->id}}" class="btn btn-primary">Edit Post</a>
-        @if (isset($post->image_path))<a href="../delete-image/{{$post->id}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>@endif
-        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="../delete/{{$post->id}}">Delete Post</a>
+        <a href="{{route('edit_post', $post->id)}}" class="btn btn-primary">Edit Post</a>
+        @if (isset($post->image_path))<a href="{{route('delete_post', $post->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>@endif
+        <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_post', $post->id)}}">Delete Post</a>
         @endif
         @if($userNow->name != $post->author_name)
         <h3>Add a comment:</h3>
@@ -57,7 +57,7 @@
             <h4 style="color:red">{{$error}}</h4>
         @endforeach
         @endif
-        <form class="form-group" action="/comment/{{$post->id}}" method="POST">   
+        <form class="form-group" action="{{route('comment', $post->id)}}" method="POST">
             @csrf
         <textarea class="form-control" name="comment"></textarea><br>
         <button class="btn btn-primary" type="submit">Add Comment</button>
