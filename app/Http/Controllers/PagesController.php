@@ -14,9 +14,9 @@ class PagesController extends Controller
     public function index()
     {
         if ($user = Auth::user()) {
-            $userspost = Post::latest()->get();
+            $userspost = Post::where('author_id', Auth::user()->id)->latest()->get();
 
-            return view('pages.index')->withuserspost($userspost);
+            return view('pages.index')->withUserspost($userspost);
         }
 
         return view('pages.index');
