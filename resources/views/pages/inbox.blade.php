@@ -5,7 +5,7 @@
     <div class="jumbotron">
         
 
-        
+
         @if (! empty($conversation))
 
                     <h3 style="text-align: center;" class="display-4">Inbox with {{App\User::find($users['recipient_id'])->name}}</h3>
@@ -21,9 +21,12 @@
                     <small style="float: right;">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}} <a href="/delete-message/{{$convo->id}}">Unsend</a></small>
                 </li>
         @else
-                
+
                 <li class="list-group-item" style="float:left">
-                    <h3>{{App\User::find($convo->sender_id)->name}}</h3>{{$convo->message}}<br>
+                    @if (isset($userInfo->image_path))
+                        <a href="/profile/{{$convo->sender_id}}"><img style="width:40px;height:40px;"src="{{asset($userInfo->image_path)}}" class="rounded"></a>
+                    @endif
+                    <h3>{{$userInfo->name}}</h3>{{$convo->message}}<br>
                     <small style="float:left">Sent at {{Carbon::parse($convo->created_at)->format('d F Y H:i')}}</small>
                 </li>
         @endif

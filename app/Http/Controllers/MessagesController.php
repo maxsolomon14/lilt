@@ -75,18 +75,16 @@ class MessagesController extends Controller
      */
     public function show(Message $message, $sender_id, $recipient_id)
     {
-        // $users = Message::where(function ($query) use ($recipient_id, $sender_id) {
-        //     $query->where('sender_id', '=', $recipient_id)
-        //           ->orWhere('sender_id', '=', $sender_id);
-        // })->first();
         if ($recipient_id === Auth::user()->id or $sender_id === $recipient_id) {
             abort(404);
         }
-        $conversation = DB::select('SELECT * FROM messages Where sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
+        $conversation = DB::select('SELECT * FROM messages WHERE sender_id = ? AND recipient_id = ? OR sender_id = ? AND recipient_id = ?', [$sender_id, $recipient_id, $recipient_id, $sender_id]);
         $users = ['sender_id'    => $sender_id,
                   'recipient_id' => $recipient_id, ];
 
-        return view('pages.inbox')->withConversation($conversation)->withUsers($users);
+        $userInfo = User::find($recipient_id);
+
+        return view('pages.inbox')->withConversation($conversation)->withUsers($users)->withUserInfo($userInfo);
     }
 
     /**
