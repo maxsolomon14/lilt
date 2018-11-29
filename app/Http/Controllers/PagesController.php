@@ -15,6 +15,7 @@ class PagesController extends Controller
     {
         if ($user = Auth::user()) {
             $userspost = Post::latest()->get();
+
             return view('pages.index')->withuserspost($userspost);
         }
 

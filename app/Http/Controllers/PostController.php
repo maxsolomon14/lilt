@@ -99,12 +99,11 @@ class PostController extends Controller
             $hasLiked = false;
         }
 
-
-        if($hasLiked) {
+        if ($hasLiked) {
             $logic = '<p>'.$logLiked.'</p> <a class="btn btn-secondary" role="button" href="/unlike/'.Auth::user()->id.'/'.$post->id.'">Unlike</a>';
-    } else {
-        $logic = '<p>'.$logUnliked.'</p> <a href="/like/'.$post->id.'/'.Auth::user()->id.'" class="btn btn-primary" role="button">Like</a>';
-    }
+        } else {
+            $logic = '<p>'.$logUnliked.'</p> <a href="/like/'.$post->id.'/'.Auth::user()->id.'" class="btn btn-primary" role="button">Like</a>';
+        }
 
         return view('pages.post')->withPost($post)->withlogic($logic)->withuserspost($userspost);
     }
