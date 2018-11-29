@@ -123,7 +123,7 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view('pages.edit')->with('edit_post', $edit_post);
+        return view('pages.edit')->withEditPost($edit_post);
     }
 
     /**
