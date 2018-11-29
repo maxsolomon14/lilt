@@ -17,7 +17,4 @@ class Message extends Model
         'sender_id'    => 'integer',
         'recipient_id' => 'integer',
     ];
-
-
-
 }
