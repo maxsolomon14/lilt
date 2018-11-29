@@ -14,7 +14,8 @@ class PagesController extends Controller
     public function index()
     {
         if ($user = Auth::user()) {
-            return view('pages.index')->with('user_posts', $user->posts);
+            $userspost = Post::latest()->get();
+            return view('pages.index')->withuserspost($userspost);
         }
 
         return view('pages.index');
@@ -38,7 +39,7 @@ class PagesController extends Controller
             return redirect('/');
         }
 
-        return view('pages.profile')->with('user', $user);
+        return view('pages.profile')->withUser($user);
     }
 
     public function search(Request $request)
@@ -98,9 +99,6 @@ class PagesController extends Controller
         }
         $path = $request->file('image')->store('/public/profile');
         $path = str_replace('public/', 'storage/', $path);
-
-        // echo $path;
-        // dd($path);
 
         $user->image_path = $path;
         $user->save();

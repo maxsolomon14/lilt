@@ -11,7 +11,7 @@
                     @if (isset($profile->image_path))
                     <img style="width:40px;height:40px;"src="{{asset($profile->image_path)}}" class="rounded">
                     @endif
-                    <p class="lead"><a href="../profile/{{$profile->id}}">{{$profile->name}}</a> - Member since {{$profile->created_at->format('Y')}}. {{$profile->name}} @if(count($profile->posts) < 1) hasn't made any posts. @else  has made {{count($profile->posts)}} posts. @endif</p>
+                    <p class="lead"><a href="../profile/{{$profile->id}}">{{$profile->name}}</a> - Has been a member since {{$profile->created_at->format('F Y')}}. {{$profile->name}} @if(count($profile->posts) < 1) hasn't made any posts. @else  has made {{count($profile->posts)}} posts. @endif</p>
             </li>
         </ul>
         @endif
