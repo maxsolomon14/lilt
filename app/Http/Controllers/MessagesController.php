@@ -143,9 +143,9 @@ class MessagesController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        $new_message = Message::create(['sender_id' => Auth::user()->id,
+        $new_message = Message::create(['sender_id'    => Auth::user()->id,
                                         'recipient_id' => $request->option,
-                                        'message' =>$request->message, ]);
+                                        'message'      => $request->message, ]);
 
         return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
     }

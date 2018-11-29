@@ -15,8 +15,8 @@ class Comment extends Model
 
     protected $casts = [
         'user_name' => 'string',
-        'user_id' => 'integer',
-        'comment' => 'string',
-        'post_id' => 'integer',
+        'user_id'   => 'integer',
+        'comment'   => 'string',
+        'post_id'   => 'integer',
     ];
 }

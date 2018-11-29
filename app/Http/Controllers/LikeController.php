@@ -38,7 +38,6 @@ class LikeController extends Controller
         $like = Like::create(['post_id' => $post_id,
                               'user_id' => $user_id, ]);
 
-
         return redirect('/post/'.$post_id);
     }
 

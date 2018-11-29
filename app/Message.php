@@ -13,8 +13,8 @@ class Message extends Model
     ];
 
     protected $casts = [
-    'message' => 'string',
-    'sender_id' => 'integer',
+    'message'      => 'string',
+    'sender_id'    => 'integer',
     'recipient_id' => 'integer',
     ];
 }

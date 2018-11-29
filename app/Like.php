@@ -11,8 +11,8 @@ class Like extends Model
             'user_id',
     ];
 
-        protected $casts = [
-            'post_id'       => 'integer',
+    protected $casts = [
+            'post_id'        => 'integer',
             'user_id'        => 'integer',
     ];
 }

@@ -137,7 +137,7 @@ class PostController extends Controller
     public function update(Post $post, Request $request)
     {
         $post->update(['title' => $request->title,
-                       'body' => $request->body, ]);
+                       'body'  => $request->body, ]);
 
         return redirect("/post/$post->id");
     }
