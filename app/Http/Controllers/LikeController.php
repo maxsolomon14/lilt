@@ -20,7 +20,6 @@ class LikeController extends Controller
 
         $find = Like::where(['post_id' => $post_id, 'user_id' => $user_id])->first();
 
-
         if ($find != null or $post->user->id == $user_id) {
             return redirect(url()->previous());
         } else {

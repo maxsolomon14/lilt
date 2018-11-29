@@ -84,8 +84,6 @@ class MessagesController extends Controller
 
         $userInfo = User::find($recipient_id);
 
-
-
         return view('pages.inbox')->withConversation($conversation)->withUsers($users)->withUserInfo($userInfo);
     }
 
