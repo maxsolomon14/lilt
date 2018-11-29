@@ -43,10 +43,10 @@
               </div>
         </form>
     @endif
-    @if(! $user_posts->isEmpty())
+    @if(! $userspost->isEmpty())
     <h3 class="lead">Take a look at your posts:</h3>
 
-    @foreach($user_posts as $post)
+    @foreach($userspost as $post)
         <ul class="list-group">
             <li class="list-group-item">
             <small>Written at {{$post->created_at->format('d/m/Y H:i')}}</small>

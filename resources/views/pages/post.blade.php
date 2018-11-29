@@ -18,11 +18,7 @@
         @if ($post->author_id == $userNow->id)
         <p>{{$userspost}}</p>
         @else
-        @if($hasLiked)
-        <p>{{$logLiked}}</p> <a class="btn btn-secondary" role="button" href="/unlike/{{$userNow->id}}/{{$post->id}}">Unlike</a>
-        @else
-        <p>{{$logUnliked}}</p> <a href="/like/{{$post->id}}/{{$userNow->id}}" class="btn btn-primary" role="button">Like</a>
-        @endif
+       {!! $logic !!}
         @endif
         
         @if($post->commented != null)
