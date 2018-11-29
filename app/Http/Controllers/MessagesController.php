@@ -29,7 +29,7 @@ class MessagesController extends Controller
             return $message['sender_id'] + $message['recipient_id'];
         });
 
-        return view('pages.messages')->with('messages', $messages);
+        return view('pages.messages')->withMessages($messages);
     }
 
     /**
@@ -86,7 +86,7 @@ class MessagesController extends Controller
         $users = ['sender_id'    => $sender_id,
                   'recipient_id' => $recipient_id, ];
 
-        return view('pages.inbox')->with('conversation', $conversation)->with('users', $users);
+        return view('pages.inbox')->withConversation($conversation)->withUsers($users);
     }
 
     /**
@@ -143,11 +143,9 @@ class MessagesController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        $new_message = new Message();
-        $new_message->sender_id = Auth::user()->id;
-        $new_message->recipient_id = $request->option;
-        $new_message->message = $request->message;
-        $new_message->save();
+        $new_message = Message::create(['sender_id' => Auth::user()->id,
+                                        'recipient_id' => $request->option,
+                                        'message' =>$request->message, ]);
 
         return redirect('/inbox/'.Auth::user()->id.'/'.$request->option);
     }

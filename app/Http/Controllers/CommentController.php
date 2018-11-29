@@ -24,17 +24,11 @@ class CommentController extends Controller
 
         $user_id = Auth::user()->id;
 
-        $comm = new Comment();
+        $comm = Comment::create(['user_name' => Auth::user()->name,
+                                 'user_id' => $user_id,
+                                 'comment' => $request->comment,
+                                 'post_id' => $id, ]);
 
-        $comm->user_name = Auth::user()->name;
-
-        $comm->user_id = $user_id;
-
-        $comm->comment = $request->comment;
-
-        $comm->post_id = $id;
-
-        $comm->save();
 
         $posts = Post::find($id);
 

@@ -45,7 +45,7 @@ class PagesController extends Controller
 
     public function search(Request $request)
     {
-        //    dd($request->all());
+
         $validator = Validator::make($request->all(), [
             'search'      => 'required|max:20',
             'search_type' => 'required',

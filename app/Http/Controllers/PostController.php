@@ -117,13 +117,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $edit_post = $post;
+        $editpost = $post;
 
         if ($post->author_id !== Auth::user()->id) {
             abort(404);
         }
 
-        return view('pages.edit')->withEditPost($edit_post);
+        return view('pages.edit')->withEditpost($editpost);
     }
 
     /**
@@ -136,13 +136,10 @@ class PostController extends Controller
      */
     public function update(Post $post, Request $request)
     {
-        $post->title = $request->title;
+        $post->update(['title' => $request->title,
+                       'body' => $request->body, ]);
 
-        $post->body = $request->body;
-
-        $post->save();
-
-        return redirect('/post/'.$post->id);
+        return redirect("/post/$post->id");
     }
 
     /**

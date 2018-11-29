@@ -35,13 +35,9 @@ class LikeController extends Controller
      */
     public function create($post_id, $user_id)
     {
-        $like = new Like();
+        $like = Like::create(['post_id' => $post_id,
+                              'user_id' => $user_id, ]);
 
-        $like->post_id = $post_id;
-
-        $like->user_id = $user_id;
-
-        $like->save();
 
         return redirect('/post/'.$post_id);
     }
