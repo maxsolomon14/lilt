@@ -2,9 +2,9 @@
 
 namespace App\Http\Views;
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\User;
 
 class UserComposer
 {
