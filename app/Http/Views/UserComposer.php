@@ -17,7 +17,6 @@ class UserComposer
      */
     public function compose(View $view)
     {
-
         $view->withUserNow(Auth::user())->withFindUser(User::all());
     }
 }
