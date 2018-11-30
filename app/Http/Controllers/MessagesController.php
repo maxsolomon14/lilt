@@ -29,7 +29,6 @@ class MessagesController extends Controller
             return $message['sender_id'] + $message['recipient_id'];
         });
 
-//        $findUser = User::all();
 
         return view('pages.messages')->withMessages($messages);
     }
