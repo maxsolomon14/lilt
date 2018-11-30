@@ -13,14 +13,14 @@
    
             <ul class="list-group">
                 <li class="list-group-item">
-                <h2><a href="{{route('inbox', ['sender_id' => $inbox->recipient_id, 'recipient_id' => $inbox->sender_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser[($inbox->sender_id - 1)]->name}} @else {{$findUser[($inbox->recipient_id - 1)]->name}} @endif</a></h2>
+                <h2><a href="{{route('inbox', ['sender_id' => $inbox->recipient_id, 'recipient_id' => $inbox->sender_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser->where('id', $inbox->sender_id)->first()->name}} @else {{$findUser->where('id', $inbox->recipient_id)->first()->name}} @endif</a></h2>
                 <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
                 </li>
             </ul>
     @else
     <ul class="list-group">
         <li class="list-group-item">
-        <h2><a href="{{route('inbox', ['sender_id' => $inbox->sender_id, 'recipient_id' => $inbox->recipient_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser[($inbox->sender_id - 1)]->name}} @else {{$findUser[($inbox->recipient_id - 1)]->name}} @endif</a></h2>
+        <h2><a href="{{route('inbox', ['sender_id' => $inbox->sender_id, 'recipient_id' => $inbox->recipient_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser->where('id', $inbox->sender_id)->first()->name}} @else {{$findUser->where('id', $inbox->recipient_id)->first()->name}} @endif</a></h2>
             <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
         </li>
     </ul>

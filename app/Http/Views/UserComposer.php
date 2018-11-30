@@ -4,6 +4,7 @@ namespace App\Http\Views;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\User;
 
 class UserComposer
 {
@@ -16,6 +17,7 @@ class UserComposer
      */
     public function compose(View $view)
     {
-        $view->withUserNow(Auth::user());
+        $findUser = User::all();
+        $view->withUserNow(Auth::user())->withFindUser($findUser);
     }
 }

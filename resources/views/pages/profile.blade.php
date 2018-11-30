@@ -26,9 +26,10 @@
             <h3>Here are all of {{$user->name}}'s comments:</h3>
 
         @foreach ($user->comments as $comment)
+
         <ul class="list-group">
             <li class="list-group-item">
-                <small>Written by <a href="{{route('profile', $comment->user_id)}}">{{$comment->user_name}}</a> on {{$comment->created_at->format('d F Y')}}  -  Go to <a href="{{route('post.show', $comment->post_id)}}">post?</a></small><br>
+                <small>Written by <a href="{{route('profile', $comment->user_id)}}">{{$user->name}}</a> on {{$comment->created_at->format('d F Y')}}  -  Go to <a href="{{route('post.show', $comment->post_id)}}">post?</a></small><br>
             {{$comment->comment}}
             </li>
         </ul>
