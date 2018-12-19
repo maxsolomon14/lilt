@@ -51,7 +51,7 @@ class MessagesController extends Controller
      */
     public function store(Request $request, $sender_id, $recipient_id)
     {
-            $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'message' => 'required|max:300',
         ]);
         if ($validator->fails()) {
