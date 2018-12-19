@@ -17,4 +17,14 @@ class Message extends Model
         'sender_id'    => 'integer',
         'recipient_id' => 'integer',
     ];
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
+    }
+
+    public function recipient()
+    {
+        return $this->hasOne(User::class, 'id', 'recipient_id');
+    }
 }

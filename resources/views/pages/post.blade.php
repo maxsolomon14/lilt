@@ -14,24 +14,8 @@
 
         <p class="lead">{{$post->body}}</p>
         <small>Written by <a href="{{route('profile', $post->author_id)}}">{{$post->author_name}}</a> on {{$post->created_at->format('d F Y H:i')}}</small>
-        
-        @if ($post->author_id == $userNow->id)
-        <p>{{$userspost}}</p>
-        @else
-       {!! $logic !!}
-        @endif
-        
-        @if($post->commented != null)
-        <h3>Comments:</h3><br>
-        @foreach($post->comments as $comment)
-        <ul class="list-group">
-            <li class="list-group-item">
-                <small>Written by <a href="{{route('profile', $comment->user_id)}}">{{$comment->user_name}}</a> on {{$comment->created_at->format('d F Y')}}</small><br>
-                {{$comment->comment}}
-            </li>
-        </ul>
-        @endforeach
-        @endif
+        <like-component v-bind:elf="{{ json_encode($post->author_id == $userNow->id) }}" users-post="{{ $userspost }}" logic="{{ $logic }}"></like-component>
+        <comment-component v-bind:commented="{{ json_encode($post->commented != null) }}" :all-comments="{{ $post->comments }}"></comment-component>
         @if ($userNow->id === $post->author_id)
         <br>
         <form action="{{route('image_up', $post->id)}}" method="post" enctype="multipart/form-data">
