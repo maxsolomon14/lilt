@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Validator;
 
-
 class PostController extends Controller
 {
     protected $dates = ['created_at'];
