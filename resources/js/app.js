@@ -17,6 +17,7 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
+Vue.use(require('vue-moment'));
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('like-component', require('./components/LikeComponent.vue').default);
 Vue.component('comment-component', require('./components/CommentComponent.vue').default);
