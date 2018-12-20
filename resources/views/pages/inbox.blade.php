@@ -45,7 +45,7 @@
         <h3>You have no messages with this person, start a conversation below!</h3>
         @endif
         @if($userNow->id == $users['sender_id'])
-            <form class="form-group" method="POST" action="{{route('send', ['sender_id' => $users['sender_id'], 'recipient_id' => $users['recipient_id'], ])}}">
+            <form style="max-width: 35rem; margin: 0 auto;" class="form-group" method="POST" action="{{route('send', ['sender_id' => $users['sender_id'], 'recipient_id' => $users['recipient_id'], ])}}">
                 @csrf
                 <label for="message">Message</label><br>
                 <textarea class="form-control" name="message" placeholder="Send a message..."></textarea><br>

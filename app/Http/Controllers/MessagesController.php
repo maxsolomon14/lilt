@@ -19,11 +19,11 @@ class MessagesController extends Controller
     public function index()
     {
         $user = Auth::user()->id;
-        $messages = Message::where(function ($query) use ($user) {
+        $messages = Message::with('sender')->with('recipient')->where(function ($query) use ($user) {
             $query->where('sender_id', '=', $user)
                   ->orWhere('recipient_id', '=', $user);
         })
-        ->groupBy('sender_id', 'recipient_id')
+        ->orderBy('updated_at', 'desc')
         ->get()
         ->unique(function ($message) {
             return $message['sender_id'] + $message['recipient_id'];

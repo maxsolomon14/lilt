@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Validator;
+//use App\Http\Resources\Posts as PostsResource;
 
 class PostController extends Controller
 {
@@ -22,10 +23,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
-        $user = User::all();
-
-        return view('pages.posts')->with('posts', $posts)->with('user', $user);
+        $posts = Post::with('user')->orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
+        return view('pages.posts')->withPosts($posts);
     }
 
     /**
@@ -83,8 +82,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $comments = Comment::where('post_id', $post->id)->get();
-
         $likes = Like::where('post_id', $post->id)->first();
 
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
@@ -93,7 +90,7 @@ class PostController extends Controller
         $userspost = trans_choice('likes.user_post', $post->likes->count(), ['likes' => $post->likes->count()]);
         $logLiked = trans_choice('likes.likes_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
 
-        if ($likes !== null or $hasLiked) {
+        if ($likes !== null && $hasLiked) {
             $hasLiked = true;
         } else {
             $hasLiked = false;
@@ -179,5 +176,8 @@ class PostController extends Controller
         $post->save();
 
         return redirect('/post/'.$post->id);
+    }
+    public function apiGet(){
+        return (Post::with('user')->get()->toArray());
     }
 }

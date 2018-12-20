@@ -16,6 +16,7 @@ Route::get('/', 'PagesController@index');
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/all-posts', 'PostController@apiGet');
     Route::get('/posts', 'PostController@index');
     Route::get('/create', 'PostController@create');
     Route::post('/create-message', 'MessagesController@create_new');

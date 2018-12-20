@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
+use Guzzle;
 
 class PagesController extends Controller
 {
@@ -58,12 +59,17 @@ class PagesController extends Controller
             $criteria = $request->search;
 
             if ($request->search_type === 'users') {
-                $user = User::search($criteria)->first();
+                $user = User::search($criteria)->get();
+
                 if (!$user) {
                     return redirect(url()->previous());
                 }
-
-                return redirect('/profile/'.$user->id);
+                if(count($user) > 1) {
+                    return view(profile-results)->withProfiles($user);
+                } else {
+                    $user = User::search($criteria)->first();
+                    return redirect('/profile/' . $user->id);
+                }
             }
 
             if ($request->search_type === 'post') {
@@ -84,7 +90,14 @@ class PagesController extends Controller
     {
         $profiles = User::all();
 
-        return view('pages.results')->with('profiles', $profiles);
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://uifaces.co/api',
+                                          'headers' => array("X-API-KEY" => "778ed0f0b5be6bd6ad1cda86fcd674")]);
+        $response = $client->request('GET', '?random&limit=10');
+        $image = json_decode($response->getBody())[0]->photo;
+
+
+
+        return view('pages.results')->with('profiles', $profiles)->withImage($image);
     }
 
     public function image()

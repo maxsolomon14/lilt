@@ -1,37 +1,9 @@
 @extends('layout')
 
 @section('content')
-
-    @if ($messages->isNotEmpty())
     <div class="jumbotron">
-        <h2 class="display-4">Messages</h2>
-    @foreach ($messages as $inbox)
-    
-    @if ($inbox->sender_id !== $userNow->id)
+        <messages-component :messages="{{$messages}}" :messages-not-empty="{{json_encode($messages->isNotEmpty())}}" :current-user-id="{{ Auth::user()->id }}"></messages-component>
 
-
-   
-            <ul class="list-group">
-                <li class="list-group-item">
-                <h2><a href="{{route('inbox', ['sender_id' => $inbox->recipient_id, 'recipient_id' => $inbox->sender_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser->where('id', $inbox->sender_id)->first()->name}} @else {{$findUser->where('id', $inbox->recipient_id)->first()->name}} @endif</a></h2>
-                <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
-                </li>
-            </ul>
-    @else
-    <ul class="list-group">
-        <li class="list-group-item">
-        <h2><a href="{{route('inbox', ['sender_id' => $inbox->sender_id, 'recipient_id' => $inbox->recipient_id, ])}}">@if ($userNow->id !== $inbox->sender_id){{$findUser->where('id', $inbox->sender_id)->first()->name}} @else {{$findUser->where('id', $inbox->recipient_id)->first()->name}} @endif</a></h2>
-            <small>At {{$inbox->created_at->format('d F Y H:i')}}</small>
-        </li>
-    </ul>
-    @endif
-    @endforeach
-    
-
-
-    @else
-        <h2 class="display-4">No messages yet</h2>
-    @endif
         @if(isset($errors))
 
         @foreach ($errors->all() as $error)
