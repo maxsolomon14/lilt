@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Like;
 use App\Post;
 use App\User;
@@ -10,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Validator;
+
 //use App\Http\Resources\Posts as PostsResource;
 
 class PostController extends Controller
@@ -24,6 +24,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('user')->orderBy('CREATED_AT', 'desc')->groupBy('title')->simplePaginate(6);
+
         return view('pages.posts')->withPosts($posts);
     }
 
@@ -177,7 +178,9 @@ class PostController extends Controller
 
         return redirect('/post/'.$post->id);
     }
-    public function apiGet(){
-        return (Post::with('user')->get()->toArray());
+
+    public function apiGet()
+    {
+        return Post::with('user')->get()->toArray();
     }
 }
