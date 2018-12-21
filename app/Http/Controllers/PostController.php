@@ -95,7 +95,6 @@ class PostController extends Controller
             $hasLiked = false;
         }
 
-
         return view('pages.post')->withPost($post)->withHasLiked($hasLiked)->withuserspost($userspost);
     }
 
