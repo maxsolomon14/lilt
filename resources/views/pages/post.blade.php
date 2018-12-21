@@ -8,7 +8,7 @@
     
         <div class="jumbotron">
         <post-component :single-post="true" :post="{{ $post }}" :image-exist="{{ json_encode(isset($post->image_path)) }}"></post-component>
-        <like-component :elf="{{ json_encode($post->author_id == $userNow->id) }}" users-post="{{ $userspost }}" logic="{{ $logic }}"></like-component>
+        <like-component :post-id="{{ $post->id }}" :user-id="{{ Auth::user()->id }}" :elf="{{ json_encode($post->author_id == $userNow->id) }}" :has-liked="{{ json_encode($hasLiked) }}" post-user="{{ $post->author_name }}" :likes-amount="{{ count($post->likes) }}" users-post="{{ $userspost }}"></like-component>
         <comment-component v-bind:commented="{{ json_encode($post->commented != null) }}" :all-comments="{{ $post->comments }}"></comment-component>
         @if ($userNow->id === $post->author_id)
         <br>

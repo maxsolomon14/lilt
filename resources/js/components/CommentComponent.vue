@@ -23,7 +23,7 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Comment Component mounted.')
         }
     }
 </script>

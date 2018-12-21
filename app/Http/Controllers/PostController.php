@@ -87,9 +87,7 @@ class PostController extends Controller
 
         $hasLiked = Auth::user()->likes()->where('post_id', '=', $post->id)->exists();
 
-        $logUnliked = trans_choice('likes.likes_not_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
         $userspost = trans_choice('likes.user_post', $post->likes->count(), ['likes' => $post->likes->count()]);
-        $logLiked = trans_choice('likes.likes_liked', $post->likes->count(), ['likes_test' => ($post->likes->count() - 1), 'likes' => $post->likes->count(), 'name' => $post->author_name."'s"]);
 
         if ($likes !== null && $hasLiked) {
             $hasLiked = true;
@@ -97,13 +95,8 @@ class PostController extends Controller
             $hasLiked = false;
         }
 
-        if ($hasLiked) {
-            $logic = '<p>'.$logLiked.'</p> <a class="btn btn-secondary" role="button" href="/unlike/'.Auth::user()->id.'/'.$post->id.'">Unlike</a>';
-        } else {
-            $logic = '<p>'.$logUnliked.'</p> <a href="/like/'.$post->id.'/'.Auth::user()->id.'" class="btn btn-primary" role="button">Like</a>';
-        }
 
-        return view('pages.post')->withPost($post)->withlogic($logic)->withuserspost($userspost);
+        return view('pages.post')->withPost($post)->withHasLiked($hasLiked)->withuserspost($userspost);
     }
 
     /**

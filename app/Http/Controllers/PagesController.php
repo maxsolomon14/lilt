@@ -88,14 +88,13 @@ class PagesController extends Controller
 
     public function profiles()
     {
-        $profiles = User::all();
-
+        $profiles = User::with('posts')->get();
         $client = new \GuzzleHttp\Client(['base_uri' => 'https://uifaces.co/api',
                                           'headers'  => ['X-API-KEY' => '778ed0f0b5be6bd6ad1cda86fcd674'], ]);
         $response = $client->request('GET', '?random&limit=10');
         $image = json_decode($response->getBody())[0]->photo;
 
-        return view('pages.results')->with('profiles', $profiles)->withImage($image);
+        return view('pages.results')->with('profiles', $profiles->toArray())->withImage($image);
     }
 
     public function image()

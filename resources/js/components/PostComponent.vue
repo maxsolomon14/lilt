@@ -48,7 +48,7 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Post Component mounted.')
         }
     }
 </script>
