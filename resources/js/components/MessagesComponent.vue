@@ -35,6 +35,9 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <h2 class="display-4">No messages yet</h2><br>
+        </div>
     </div>
 </template>
 

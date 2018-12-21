@@ -24,6 +24,8 @@ Vue.component('comment-component', require('./components/CommentComponent.vue').
 Vue.component('post-component', require('./components/PostComponent.vue').default);
 Vue.component('posts-component', require('./components/PostsComponent.vue').default);
 Vue.component('messages-component', require('./components/MessagesComponent.vue').default);
+Vue.component('inbox-component', require('./components/InboxComponent.vue').default);
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
