@@ -62,7 +62,7 @@
             likeMessage: function () {
                 if (this.likedValue === false) {
                     if (this.likes < 1) {
-                        return "Be the first to like " + this.postUser + "'s post!`"
+                        return "Be the first to like " + this.postUser + "'s post!"
                     }
                     if (this.likes === 1) {
                         return this.postUser + "'s post has 1 like!"

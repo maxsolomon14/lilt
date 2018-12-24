@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profiles', 'PagesController@profiles');
     Route::get('/edit/{post}', 'PostController@edit')->name('edit_post');
     Route::get('/delete/{post}', 'PostController@destroy')->name('delete_post');
-    Route::get('/delete-image/{post}', 'PostController@delete_image');
+    Route::get('/delete-image/{post}', 'PostController@delete_image')->name('delete_image');
     Route::get('/unlike/{id}/{post}', 'LikeController@destroy');
     Route::get('/image', 'PagesController@image');
     Route::post('/image/{post}', 'PostController@image_up')->name('image_up');

@@ -29,7 +29,7 @@
     export default {
         props: {
             allPosts: {
-                type: Array
+                type: Object
             },
             posted: {
                 type: Boolean

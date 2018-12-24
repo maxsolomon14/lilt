@@ -21,7 +21,7 @@
     export default {
         props: {
             allPosts: {
-                type: Array
+                type: Object
             },
             postsExist: {
                 type: Boolean
