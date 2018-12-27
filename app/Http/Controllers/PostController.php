@@ -47,7 +47,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:posts|max:30',
             'body'  => 'required|max:300',

@@ -132,7 +132,6 @@ class MessagesController extends Controller
 
     public function create_new(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'message' => 'required|max:300',
             'option'  => 'required',
