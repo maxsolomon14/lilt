@@ -8,7 +8,7 @@
     
         <div class="jumbotron">
         <post-component :single-post="true" :post="{{ $post }}" :image-exist="{{ json_encode(isset($post->image_path)) }}"></post-component>
-        <like-component :post-id="{{ $post->id }}" :user-id="{{ Auth::user()->id }}" :elf="{{ json_encode($post->author_id == $userNow->id) }}" :has-liked="{{ json_encode($hasLiked) }}" post-user="{{ $post->author_name }}" :likes-amount="{{ count($post->likes) }}" users-post="{{ $userspost }}"></like-component>
+        <like-component :post-id="{{ $post->id }}" :user-id="{{ $userNow->id }}" :elf="{{ json_encode($post->author_id == $userNow->id) }}" :has-liked="{{ json_encode($hasLiked) }}" post-user="{{ $post->author_name }}" :likes-amount="{{ count($post->likes) }}" users-post="{{ $userspost }}"></like-component>
         <comment-component :user="{{ $userNow }}" :commented="{{ json_encode($post->comments->isNotEmpty()) }}" :all-comments="{{ $post->comments }}" :not-users-post="{{ json_encode($userNow->name != $post->author_name) }}" :post="{{ $post }}"></comment-component>
         @if ($userNow->id === $post->author_id)
         <br>
@@ -28,16 +28,6 @@
         @if (isset($post->image_path))<a href="{{route('delete_image', $post->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete Image</a>@endif
         <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('delete_post', $post->id)}}">Delete Post</a>
         @endif
-        {{--@if($userNow->name != $post->author_name)--}}
-        {{--<h3>Add a comment:</h3>--}}
-        {{----}}
-        {{--<form class="form-group" action="{{route('comment', $post->id)}}" method="POST">--}}
-            {{--@csrf--}}
-        {{--<textarea class="form-control" name="comment"></textarea><br>--}}
-        {{--<button class="btn btn-primary" type="submit">Add Comment</button>--}}
-        {{--</form>--}}
-        {{--@endif--}}
-           {{--<add-comment-component :not-users-post="{{ json_encode($userNow->name != $post->author_name) }}" :post="{{ $post }}">{{ csrf_field() }}</add-comment-component>--}}
             @if(isset($errors))
                 @foreach ($errors->all() as $error)
                     <h4 style="color:red">{{$error}}</h4>

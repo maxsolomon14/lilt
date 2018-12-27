@@ -47,6 +47,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:posts|max:30',
             'body'  => 'required|max:300',
@@ -59,7 +60,7 @@ class PostController extends Controller
                         ->withInput();
         }
 
-        if ($request->file('image_path') !== null) {
+        if ($request->file('image') !== null) {
             $path = $request->file('image')->store('/public');
             $path = str_replace('public/', 'storage/', $path);
         } else {
